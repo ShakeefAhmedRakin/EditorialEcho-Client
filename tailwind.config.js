@@ -10,6 +10,10 @@ export default {
         secondary: "#6d767e",
         accent: "#adb5bd",
       },
+      fontFamily: {
+        heading: ["Work Sans"],
+        text: ["Merriweather"],
+      },
     },
   },
   plugins: [],
