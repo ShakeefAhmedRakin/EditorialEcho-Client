@@ -5,9 +5,11 @@ import Footer from "./Shared/Footer";
 const PublicRoot = () => {
   return (
     <>
-      <Navbar></Navbar>
-      <Outlet></Outlet>
-      <Footer></Footer>
+      <div className="container mx-auto px-1 md:px-10 xl:px-24">
+        <Navbar></Navbar>
+        <Outlet></Outlet>
+        <Footer></Footer>
+      </div>
     </>
   );
 };
