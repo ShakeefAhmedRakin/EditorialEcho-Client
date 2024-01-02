@@ -1,7 +1,11 @@
+import Featured from "./Featured/Featured";
+
 const PublicHome = () => {
   return (
     <>
-      <h1 className="text-5xl text-primary font-bold">Home</h1>
+      <div className="py-4">
+        <Featured></Featured>
+      </div>
     </>
   );
 };
