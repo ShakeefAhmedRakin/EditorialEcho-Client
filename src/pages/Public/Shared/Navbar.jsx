@@ -37,7 +37,7 @@ const Navbar = () => {
     <div className="navbar py-5 border-b text-text dark:text-textDark">
       <div className="navbar-start">
         <div className="flex items-center gap-3">
-          <img src="/logo.png" className="w-10" />
+          <img src="/Logo.png" className="w-10" />
           <h1 className="font-heading font-semibold text-2xl text-text dark:text-textDark">
             Editorial<span className="font-normal">Echo</span>
           </h1>
