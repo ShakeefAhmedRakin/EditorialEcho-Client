@@ -1,13 +1,25 @@
+import { useEffect } from "react";
+import { useState } from "react";
+
 const Featured = () => {
+  const [blogs, setBlogs] = useState([]);
+
+  useEffect(() => {
+    fetch("/blog.json")
+      .then((res) => res.json())
+      .then((data) => setBlogs(data));
+  }, []);
+
+  console.log(blogs);
+
   return (
     <>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-1 h-[650px]">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-1 min-h-[650px]">
         {/* MAIN FEATURE */}
         <div
           className="h-full duration-300 hover:scale-[1.005] cursor-pointer"
           style={{
-            backgroundImage:
-              "url(https://images.pexels.com/photos/19510924/pexels-photo-19510924/free-photo-of-women-in-coats-in-forest-in-winter.jpeg",
+            backgroundImage: `url(${blogs[0]?.image}`,
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
@@ -15,14 +27,10 @@ const Featured = () => {
           <div className="relative top-[70%] bg-black bg-opacity-70 h-[30%] text-textDark p-4">
             {/* TITLE OF BLOG */}
             <h1 className="font-heading font-medium text-sm md:text-xl overflow-hidden whitespace-nowrap overflow-ellipsis">
-              Enchanting Snowflakes: Captivating Christmas Fashion for Girls in
-              the Snow
+              {blogs[0]?.title}
             </h1>
-            <p className="font-text text-sm mt-2">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores
-              debitis, beatae repellendus est quaerat perspiciatis aut? Ea earum
-              optio, laudantium quam totam placeat vitae. Ea architecto
-              molestiae quod iusto sint.
+            <p className="overflow-y-hidden mb-8  max-h-[70%] text-ellipsis text-xs md:text-base">
+              {blogs[0]?.content}
             </p>
           </div>
         </div>
@@ -31,33 +39,59 @@ const Featured = () => {
           <div
             className="flex-1 duration-300 hover:scale-[1.005] cursor-pointer"
             style={{
-              backgroundImage:
-                "url(https://images.pexels.com/photos/763398/pexels-photo-763398.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)",
+              backgroundImage: `url(${blogs[1]?.image}`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
-          ></div>
+          >
+            <div className="relative top-[70%] bg-black bg-opacity-70 h-[30%] text-textDark p-4">
+              {/* TITLE OF BLOG */}
+              <h1 className="font-heading font-medium text-sm md:text-lg overflow-hidden whitespace-nowrap overflow-ellipsis">
+                {blogs[1]?.title}
+              </h1>
+              <p className="overflow-y-hidden mb-8 max-h-[70%] text-ellipsis text-xs md:text-sm">
+                {blogs[1]?.content}
+              </p>
+            </div>
+          </div>
           <div className="flex-1 grid grid-cols-2 gap-1 h-full">
             {/* TERTIARY FEATURE */}
             <div
               className="h-full duration-300 hover:scale-[1.005] cursor-pointer"
               style={{
-                backgroundImage:
-                  "url(https://images.pexels.com/photos/242492/pexels-photo-242492.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)",
+                backgroundImage: `url(${blogs[2]?.image}`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
               }}
-            ></div>
+            >
+              <div className="relative top-[70%] bg-black bg-opacity-70 h-[30%] text-textDark p-4">
+                {/* TITLE OF BLOG */}
+                <h1 className="font-heading font-medium text-sm md:text-base overflow-hidden whitespace-nowrap overflow-ellipsis">
+                  {blogs[2]?.title}
+                </h1>
+                <p className="overflow-y-hidden mb-8  max-h-[70%] text-ellipsis text-xs">
+                  {blogs[2]?.content}
+                </p>
+              </div>
+            </div>
             {/* TERTIARY FEATURE */}
             <div
               className="h-full duration-300 hover:scale-[1.005] cursor-pointer"
               style={{
-                backgroundImage:
-                  "url(https://images.pexels.com/photos/699122/pexels-photo-699122.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)",
-                backgroundSize: "cover",
+                backgroundImage: `url(${blogs[3]?.image}`,
                 backgroundPosition: "center",
               }}
-            ></div>
+            >
+              <div className="relative top-[70%] bg-black bg-opacity-70 h-[30%] text-textDark p-4">
+                {/* TITLE OF BLOG */}
+                <h1 className="font-heading font-medium text-sm md:text-base overflow-hidden whitespace-nowrap overflow-ellipsis">
+                  {blogs[3]?.title}
+                </h1>
+                <p className="overflow-y-hidden mb-8  max-h-[70%] text-ellipsis text-xs">
+                  {blogs[3]?.content}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
