@@ -1,13 +1,13 @@
 const Categories = () => {
-    return (
-        <div>
-            <div className="flex gap-3 overflow-x-auto font-heading border-b p-5 text-lg">
-            <h1 className="font-bold underline underline-offset-4">All</h1>
-            <h1>Technology</h1>
-            <h1>Travel</h1>
-        </div>
-        </div>
-    );
+  return (
+    <div>
+      <div className="flex white gap-3 overflow-x-auto font-heading border-b p-5 text-lg">
+        <h1 className="font-bold text-center border-black border-b-2 hover:border-b-2">
+          All
+        </h1>
+      </div>
+    </div>
+  );
 };
 
 export default Categories;
