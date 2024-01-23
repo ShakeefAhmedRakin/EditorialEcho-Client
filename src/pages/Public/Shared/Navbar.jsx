@@ -1,6 +1,7 @@
 import { RxHamburgerMenu } from "react-icons/rx";
-import { MdInfoOutline, MdOutlineExplore } from "react-icons/md";
-import { IoSearchCircleOutline } from "react-icons/io5";
+import { MdOutlineExplore } from "react-icons/md";
+import { IoHomeOutline } from "react-icons/io5";
+
 import { NavLink } from "react-router-dom";
 import "./Navbar.css";
 
@@ -8,26 +9,20 @@ const Navbar = () => {
   const links = (
     <>
       <li>
-        <NavLink to={"/"} className={"flex items-center gap-1 hover:underline"}>
+        <NavLink
+          to={"/"}
+          className={"flex items-center gap-1 hover:underline duration-100"}
+        >
+          <IoHomeOutline className="text-xl"></IoHomeOutline>
+          Home
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          to={"/explore"}
+          className={"flex items-center gap-1 hover:underline duration-100"}
+        >
           <MdOutlineExplore className="text-2xl"></MdOutlineExplore>Explore
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          to={"/about"}
-          className={"flex items-center gap-1 hover:underline"}
-        >
-          <MdInfoOutline className="text-2xl"></MdInfoOutline>
-          About
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          to={"/search"}
-          className={"flex items-center gap-1 hover:underline"}
-        >
-          <IoSearchCircleOutline className="text-2xl"></IoSearchCircleOutline>
-          Search
         </NavLink>
       </li>
     </>
