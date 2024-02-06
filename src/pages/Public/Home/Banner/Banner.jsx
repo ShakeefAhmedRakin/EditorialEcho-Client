@@ -1,7 +1,7 @@
 const Banner = () => {
   return (
     <>
-      <div className="font-heading text-center py-32">
+      <div className="font-heading text-center pt-24">
         <h1 className="text-xl md:text-5xl font-medium">
           Craft Your Digital Narrative
         </h1>
