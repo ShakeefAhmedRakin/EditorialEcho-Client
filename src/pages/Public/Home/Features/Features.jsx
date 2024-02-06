@@ -2,7 +2,11 @@ const Features = () => {
   return (
     <>
       <div className="flex flex-col md:flex-row justify-center gap-y-4 gap-x-10 px-2">
-        <div className="bg-primary bg-opacity-30 w-full rounded-lg shadow-xl py-20 px-5">
+        <div
+          className="bg-primary bg-opacity-30 w-full rounded-lg shadow-xl py-20 px-5"
+          data-aos="fade-up"
+          data-aos-delay="50"
+        >
           <img
             src="feat-1.png"
             className="w-full aspect-video max-h-36 object-contain"
@@ -16,7 +20,11 @@ const Features = () => {
             tools.
           </p>
         </div>
-        <div className=" bg-primary text-white w-full rounded-lg shadow-xl py-20 px-5">
+        <div
+          className=" bg-primary text-white w-full rounded-lg shadow-xl py-20 px-5"
+          data-aos="fade-up"
+          data-aos-delay="100"
+        >
           <img
             src="feat-2.png"
             className="w-full aspect-video max-h-36 object-contain"
@@ -29,7 +37,11 @@ const Features = () => {
             exposure and connect with a wider audience.
           </p>
         </div>
-        <div className="bg-primary bg-opacity-30 w-full rounded-lg shadow-xl py-20 px-5">
+        <div
+          className="bg-primary bg-opacity-30 w-full rounded-lg shadow-xl py-20 px-5"
+          data-aos="fade-up"
+          data-aos-delay="150"
+        >
           <img
             src="feat-3.png"
             className="w-full aspect-video max-h-36 object-contain"
