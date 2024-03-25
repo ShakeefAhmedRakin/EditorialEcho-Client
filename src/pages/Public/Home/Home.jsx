@@ -4,9 +4,7 @@ import Features from "./Features/Features";
 const Home = () => {
   return (
     <>
-      <div className="py-4">
-        <Banner></Banner>
-      </div>
+      <Banner></Banner>
       <div className="py-10">
         <Features></Features>
       </div>
