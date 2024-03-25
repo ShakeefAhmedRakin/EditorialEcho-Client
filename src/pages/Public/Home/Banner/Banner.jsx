@@ -13,7 +13,11 @@ const Banner = () => {
         <div className="container mx-auto z-10 px-2 relative">
           <div className="font-heading flex gap-3 lg:gap-8 ">
             {/* BANNER MODEL */}
-            <div className="flex-1 flex justify-center">
+            <div
+              className="flex-1 flex justify-center"
+              data-aos="fade-down"
+              data-aos-duration="800"
+            >
               <div className="max-h-[78vh] w-[80%]">
                 <img
                   src="/banner-1.png"
