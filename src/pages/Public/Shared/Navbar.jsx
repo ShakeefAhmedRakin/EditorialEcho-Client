@@ -32,15 +32,19 @@ const Navbar = () => {
   const location = useLocation();
 
   return (
-    <div
-      className={`${
-        location.pathname !== "/" &&
-        "bg-gradient-to-bl from-[#91d0e6] to-[70%] to-primary"
-      }`}
-    >
+    <div className={`relative shadow-2xl`}>
+      {/* BACKGROUND IMAGE */}
+      <img
+        src="/bannerbg.jpg"
+        className="absolute h-full w-full top-0 object-cover object-top"
+      />
+      {/* BACKGROUND OVERLAY */}
+      <div className="bg-black bg-opacity-70 absolute h-full w-full top-0"></div>
+
+      {/* NAVBAR CONTENT */}
       <div
-        className={`navbar py-8 lg:py-12 text-white container mx-auto px-2 ${
-          location.pathname === "/" && "absolute top-0 left-0 right-0 z-50"
+        className={`navbar py-8 lg:py-12 text-white container mx-auto px-2 relative ${
+          location.pathname === "/" && "absolute top-0 left-0 right-0"
         }`}
       >
         <div className="navbar-start">
@@ -72,7 +76,7 @@ const Navbar = () => {
             </div>
             <ul
               tabIndex={0}
-              className="dropdown-content mt-3 z-[1] shadow-xl bg-background dark:bg-backgroundDark text-text dark:text-textDark grid place-items-center grid-cols-1 gap-3 p-5 rounded-box w-72"
+              className="dropdown-content mt-3 z-50 shadow-xl bg-background dark:bg-backgroundDark text-text dark:text-textDark grid place-items-center grid-cols-1 gap-3 p-5 rounded-box w-72"
             >
               <div className="w-full border-b">Profile Info</div>
 

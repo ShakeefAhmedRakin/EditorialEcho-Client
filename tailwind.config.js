@@ -6,14 +6,8 @@ export default {
       colors: {
         text: "#22262a",
         background: "#f9fafb",
-        primary: "#0C0E11",
-        secondary: "#6d767e",
-        accent: "#adb5bd",
-        textDark: "#d5d9dd",
-        backgroundDark: "#040506",
-        primaryDark: "#bec4ca",
-        secondaryDark: "#818a92",
-        accentDark: "#424a52",
+        primary: "#131112",
+        secondary: "#ECD295",
       },
       fontFamily: {
         heading: ["Work Sans"],

@@ -1,12 +1,12 @@
 import Banner from "./Banner/Banner";
-import Features from "./Features/Features";
+import Categories from "./Categories/Categories";
 
 const Home = () => {
   return (
     <>
       <Banner></Banner>
-      <div className="py-10">
-        <Features></Features>
+      <div className="my-10">
+        <Categories></Categories>
       </div>
     </>
   );
