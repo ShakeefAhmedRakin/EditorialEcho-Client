@@ -1,7 +1,62 @@
+import { useState } from "react";
 import { FaGoogle } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useAuth from "../../../hooks/useAuth";
+import { useForm } from "react-hook-form";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { toast } from "sonner";
 
 const Login = () => {
+  // LOADING STATES
+  const [loading, setLoading] = useState(false);
+  const [seePassword, setSeePassword] = useState(false);
+
+  // FIREBASE AUTH
+  const { user, signInUser, logOut } = useAuth();
+
+  // REACT HOOK FORM
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+
+  // REDIRECT FUNCTIONS
+  const navigate = useNavigate();
+
+  // LOGIN FUNCTION
+  const onSubmit = (data) => {
+    setLoading(true);
+    signInUser(data.Email, data.Password)
+      .then(() => {
+        toast.success("Logged In Successfully. Redirecting..");
+        setLoading(false);
+        reset();
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+      })
+      .catch((err) => {
+        setLoading(false);
+        toast.error(err.message);
+      });
+  };
+
+  // LOGOUT FUNCTION
+  const handleLogOut = () => {
+    setLoading(true);
+    logOut()
+      .then(() => {
+        toast.success("Logged Out");
+        setLoading(false);
+      })
+      .catch((err) => {
+        toast.error(err.message);
+        setLoading(false);
+      });
+  };
+
   return (
     <div className="h-screen flex flex-row-reverse relative overflow-y-hidden">
       <div
@@ -23,32 +78,103 @@ const Login = () => {
           </div>
           <hr className="my-6" />
           <h1 className="text-4xl font-medium text-center mb-6">Log In</h1>
-          <form>
+          <form onSubmit={handleSubmit(onSubmit)}>
             {/* EMAIL */}
             <div className="mb-6">
-              <h4 className="font-bold text-lg mb-2">Email</h4>
+              <div className="flex items-center gap-1 mb-2">
+                <h4 className="font-bold text-lg">Email</h4>
+                {errors.Email?.message && (
+                  <p
+                    role="alert"
+                    className="text-xs text-red-500 ml-2 font-semibold"
+                  >
+                    {errors.Email?.message}
+                  </p>
+                )}
+              </div>
               <input
                 type="text"
                 className="w-full border rounded-none h-12 px-4 focus:outline-none bg-gray-100"
                 placeholder="Email"
+                {...register("Email", {
+                  required: "Email is required*",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                    message: "Invalid email address",
+                  },
+                })}
               />
             </div>
             {/* PASSWORD */}
-            <div className="mb-6">
-              <h4 className="font-bold text-lg mb-2">Password</h4>
+            {/* PASSWORD */}
+            <div className="mb-6 relative">
+              <div className="flex items-center gap-1 mb-2">
+                <h4 className="font-bold text-lg">Password</h4>
+                {errors.Password?.message && (
+                  <p
+                    role="alert"
+                    className="text-xs text-red-500 ml-2 font-semibold"
+                  >
+                    {errors.Password?.message}
+                  </p>
+                )}
+              </div>
               <input
-                type="password"
+                type={seePassword ? "text" : "password"}
                 className="w-full border rounded-none h-12 px-4 focus:outline-none bg-gray-100"
                 placeholder="Password"
+                {...register(
+                  "Password",
+                  {
+                    required: "Password is required*",
+                  },
+                  {}
+                )}
               />
+              <button
+                type="button"
+                className="absolute right-3 bottom-3 text-2xl text-gray-600"
+                onClick={() => {
+                  setSeePassword(!seePassword);
+                }}
+              >
+                {seePassword ? (
+                  <AiFillEyeInvisible></AiFillEyeInvisible>
+                ) : (
+                  <AiFillEye></AiFillEye>
+                )}
+              </button>
             </div>
             <hr className="my-6" />
-            <button className="btn w-full rounded-none bg-primary hover:bg-primary text-white font-bold border-none hover:scale-[1.01] duration-300">
-              Sign In
-            </button>
-            {/* <div className="flex justify-end px-2 mt-3">
-                <span className="link text-gray-600">Forgot Password</span>
-              </div> */}
+            {user ? (
+              <>
+                <button
+                  type="button"
+                  onClick={() => handleLogOut()}
+                  className="btn w-full rounded-none bg-primary hover:bg-primary text-white font-bold border-none hover:scale-[1.01] duration-300"
+                >
+                  {loading ? (
+                    <>
+                      <span className="loading loading-spinner loading-md"></span>
+                    </>
+                  ) : (
+                    "Signed In Already. Log Out?"
+                  )}
+                </button>
+              </>
+            ) : (
+              <>
+                <button className="btn w-full rounded-none bg-primary hover:bg-primary text-white font-bold border-none hover:scale-[1.01] duration-300">
+                  {loading ? (
+                    <>
+                      <span className="loading loading-spinner loading-md"></span>
+                    </>
+                  ) : (
+                    "Sign In"
+                  )}
+                </button>
+              </>
+            )}
           </form>
           <h1 className="text-center text-gray-700 font-medium mt-10 text-xs md:text-base">
             {`Don't have an account?`}

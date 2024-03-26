@@ -12,7 +12,7 @@ const Register = () => {
   const [seePassword, setSeePassword] = useState(false);
 
   // FIREBASE AUTH
-  const { createUser, signInWithGoogle } = useAuth();
+  const { createUser } = useAuth();
 
   // REACT HOOK FORM
   const {
@@ -30,9 +30,12 @@ const Register = () => {
     setCreatingUser(true);
     createUser(data.Email, data.Password)
       .then(() => {
-        toast.success("Signed Up Successfully");
+        toast.success("Signed Up Successfully. Redirecting..");
         setCreatingUser(false);
         reset();
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
       })
       .catch((err) => {
         toast.error(err.message);
@@ -149,9 +152,6 @@ const Register = () => {
                   "Sign Up"
                 )}
               </button>
-              {/* <div className="flex justify-end px-2 mt-3">
-                <span className="link text-gray-600">Forgot Password</span>
-              </div> */}
             </form>
             <h1 className="text-center text-gray-700 font-medium mt-10 text-xs md:text-base">
               Already have an account?{" "}

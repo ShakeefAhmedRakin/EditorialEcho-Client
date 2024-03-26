@@ -1,9 +1,21 @@
 import { RxHamburgerMenu } from "react-icons/rx";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import "./Navbar.css";
-
+import useAuth from "../../../hooks/useAuth";
+import { CiLogin, CiLogout } from "react-icons/ci";
+import { RiListSettingsLine } from "react-icons/ri";
+import { toast } from "sonner";
+import { GoHome } from "react-icons/go";
+import { FaShirt } from "react-icons/fa6";
 const Navbar = () => {
+  // FIREBASE AUTH INFO
+  const { user, logOut } = useAuth();
+
+  // NAVIGATION FUNCTION
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // NAV LINKS
   const links = (
     <>
       <li>
@@ -29,7 +41,20 @@ const Navbar = () => {
     </>
   );
 
-  const location = useLocation();
+  // FUNCTIONS
+
+  // LOGGING OUT FUNCTION
+  const handleLogOut = () => {
+    logOut()
+      .then(() => {
+        toast.error("Logged Out");
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      });
+  };
+
+  console.log(user);
 
   return (
     <div className={`relative shadow-2xl`}>
@@ -43,7 +68,7 @@ const Navbar = () => {
 
       {/* NAVBAR CONTENT */}
       <div
-        className={`navbar py-8 lg:py-12 text-white container mx-auto px-2 relative ${
+        className={`navbar py-8 lg:py-12 text-white container mx-auto px-4 md:px-9 relative ${
           location.pathname === "/" && "absolute top-0 left-0 right-0"
         }`}
       >
@@ -57,14 +82,55 @@ const Navbar = () => {
         <div className="navbar-end">
           <ul className="hidden lg:flex items-center gap-12 font-heading text-xl">
             {links}
-            <li>
-              <button
-                onClick={() => navigate("/login")}
-                className="btn bg-white hover:bg-base-200 px-10 border-none rounded-none text-primary"
-              >
-                Log In
-              </button>
-            </li>
+            {user ? (
+              <>
+                <div className="dropdown dropdown-end w-[121.55px] flex justify-end">
+                  <div
+                    tabIndex={1}
+                    role="button"
+                    className="btn btn-ghost btn-circle avatar"
+                  >
+                    <div className="w-full rounded-full">
+                      <img
+                        alt="Profile Avatar"
+                        src="https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg"
+                      />
+                    </div>
+                  </div>
+                  <ul
+                    tabIndex={1}
+                    className="mt-20 z-50 p-5 shadow space-y-3 dropdown-content bg-base-100 w-64 text-black"
+                  >
+                    <button className="bg-transparent shadow-none border-none hover:bg-primary p-2 rounded-lg hover:text-white duration-300 btn w-full justify-start">
+                      <a className="text-xl font-medium flex items-center">
+                        <RiListSettingsLine className="text-2xl mr-3"></RiListSettingsLine>
+                        <span className="flex-1">Account</span>
+                      </a>
+                    </button>
+                    <button
+                      onClick={() => handleLogOut()}
+                      className="bg-transparent shadow-none border-none hover:bg-primary p-2 rounded-lg hover:text-white duration-300 btn w-full justify-start"
+                    >
+                      <a className="text-xl font-medium flex items-center">
+                        <CiLogout className="text-2xl mr-3"></CiLogout>{" "}
+                        <span className="flex-1">Logout</span>
+                      </a>
+                    </button>
+                  </ul>
+                </div>
+              </>
+            ) : (
+              <>
+                <li>
+                  <button
+                    onClick={() => navigate("/login")}
+                    className="btn bg-white hover:bg-base-200 px-10 border-none rounded-none text-primary"
+                  >
+                    Log In
+                  </button>
+                </li>
+              </>
+            )}
           </ul>
           <div className="dropdown dropdown-end">
             <div
@@ -76,11 +142,83 @@ const Navbar = () => {
             </div>
             <ul
               tabIndex={0}
-              className="dropdown-content mt-3 z-50 shadow-xl bg-background dark:bg-backgroundDark text-text dark:text-textDark grid place-items-center grid-cols-1 gap-3 p-5 rounded-box w-72"
+              className="dropdown-content mt-3 z-50 px-5 pt-7 pb-5 shadow space-y-3 bg-base-100 w-64 text-black font-heading "
             >
-              <div className="w-full border-b">Profile Info</div>
+              {user && (
+                <>
+                  <div className="w-full">
+                    <div className="flex items-center flex-col gap-2">
+                      <img
+                        alt="Profile Avatar"
+                        src="https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg"
+                        className="w-10 rounded-full"
+                      />
+                      <h1 className="text-center text-xs">{user.email}</h1>
+                    </div>
+                  </div>
+                  <hr />
+                </>
+              )}
 
-              {links}
+              <button
+                onClick={() => navigate("/")}
+                className={`shadow-none border-none ${
+                  location.pathname === "/"
+                    ? "bg-primary  hover:bg-primary text-white"
+                    : "bg-transparent  hover:bg-primary hover:text-white"
+                } p-2 rounded-lg duration-300 btn w-full justify-start`}
+              >
+                <a className="text-xl font-medium flex items-center">
+                  <GoHome className="text-2xl mr-3"></GoHome>
+                  <span className="flex-1">Home</span>
+                </a>
+              </button>
+              <button
+                onClick={() => navigate("/explore")}
+                className={`shadow-none border-none ${
+                  location.pathname === "/explore"
+                    ? "bg-primary  hover:bg-primary text-white"
+                    : "bg-transparent  hover:bg-primary hover:text-white"
+                } p-2 rounded-lg duration-300 btn w-full justify-start`}
+              >
+                <a className="text-xl font-medium flex items-center">
+                  <FaShirt className="text-2xl mr-3"></FaShirt>{" "}
+                  <span className="flex-1">Explore</span>
+                </a>
+              </button>
+              {user ? (
+                <>
+                  <hr />
+                  <button className="bg-transparent shadow-none border-none hover:bg-primary p-2 rounded-lg hover:text-white duration-300 btn w-full justify-start">
+                    <a className="text-xl font-medium flex items-center">
+                      <RiListSettingsLine className="text-2xl mr-3"></RiListSettingsLine>
+                      <span className="flex-1">Account</span>
+                    </a>
+                  </button>
+                  <button
+                    onClick={() => handleLogOut()}
+                    className="bg-transparent shadow-none border-none hover:bg-primary p-2 rounded-lg hover:text-white duration-300 btn w-full justify-start"
+                  >
+                    <a className="text-xl font-medium flex items-center">
+                      <CiLogout className="text-2xl mr-3"></CiLogout>{" "}
+                      <span className="flex-1">Logout</span>
+                    </a>
+                  </button>
+                </>
+              ) : (
+                <>
+                  <hr />
+                  <button
+                    onClick={() => navigate("/login")}
+                    className="bg-transparent shadow-none border-none hover:bg-primary p-2 rounded-lg hover:text-white duration-300 btn w-full justify-start"
+                  >
+                    <a className="text-xl font-medium flex items-center">
+                      <CiLogin className="text-2xl mr-3"></CiLogin>{" "}
+                      <span className="flex-1">Log In</span>
+                    </a>
+                  </button>
+                </>
+              )}
             </ul>
           </div>
         </div>
