@@ -9,6 +9,8 @@ import Home from "./pages/Public/Home/Home";
 import Explore from "./pages/Public/Explore/Explore";
 import Register from "./pages/Public/Register/Register";
 import Login from "./pages/Public/Login/Login";
+import AuthProvider from "./providers/AuthProvider";
+import { Toaster } from "sonner";
 
 const router = createBrowserRouter([
   // PUBLIC
@@ -38,6 +40,9 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <Toaster richColors position="bottom-right"></Toaster>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </React.StrictMode>
 );

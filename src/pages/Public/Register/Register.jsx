@@ -1,7 +1,46 @@
 import { FaGoogle } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useAuth from "../../../hooks/useAuth";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { useState } from "react";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 const Register = () => {
+  // LOADING STATES
+  const [creatingUser, setCreatingUser] = useState(false);
+  const [seePassword, setSeePassword] = useState(false);
+
+  // FIREBASE AUTH
+  const { createUser, signInWithGoogle } = useAuth();
+
+  // REACT HOOK FORM
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+
+  // REDIRECT FUNCTIONS
+  const navigate = useNavigate();
+
+  // REGISTER FUNCTION
+  const onSubmit = (data) => {
+    setCreatingUser(true);
+    createUser(data.Email, data.Password)
+      .then(() => {
+        toast.success("Signed Up Successfully");
+        setCreatingUser(false);
+        reset();
+      })
+      .catch((err) => {
+        toast.error(err.message);
+        setCreatingUser(false);
+        reset();
+      });
+  };
+
   return (
     <>
       <div className="h-screen flex relative overflow-y-hidden">
@@ -26,28 +65,89 @@ const Register = () => {
             <h1 className="text-4xl font-medium text-center mb-6">
               Create Account
             </h1>
-            <form>
+            <form onSubmit={handleSubmit(onSubmit)}>
               {/* EMAIL */}
               <div className="mb-6">
-                <h4 className="font-bold text-lg mb-2">Email</h4>
+                <div className="flex items-center gap-1 mb-2">
+                  <h4 className="font-bold text-lg">Email</h4>
+                  {errors.Email?.message && (
+                    <p
+                      role="alert"
+                      className="text-xs text-red-500 ml-2 font-semibold"
+                    >
+                      {errors.Email?.message}
+                    </p>
+                  )}
+                </div>
                 <input
                   type="text"
                   className="w-full border rounded-none h-12 px-4 focus:outline-none bg-gray-100"
                   placeholder="Email"
+                  {...register("Email", {
+                    required: "Email is required*",
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                      message: "Invalid email address",
+                    },
+                  })}
                 />
               </div>
               {/* PASSWORD */}
-              <div className="mb-6">
-                <h4 className="font-bold text-lg mb-2">Password</h4>
+              <div className="mb-6 relative">
+                <div className="flex items-center gap-1 mb-2">
+                  <h4 className="font-bold text-lg">Password</h4>
+                  {errors.Password?.message && (
+                    <p
+                      role="alert"
+                      className="text-xs text-red-500 ml-2 font-semibold"
+                    >
+                      {errors.Password?.message}
+                    </p>
+                  )}
+                </div>
                 <input
-                  type="password"
+                  type={seePassword ? "text" : "password"}
                   className="w-full border rounded-none h-12 px-4 focus:outline-none bg-gray-100"
                   placeholder="Password"
+                  {...register(
+                    "Password",
+                    {
+                      required: "Password is required*",
+                      minLength: {
+                        value: 6,
+                        message: "Must be at least 6 characters",
+                      },
+                      pattern: {
+                        value: /^(?=.*[a-z])(?=.*[A-Z]).+$/,
+                        message: "Must contain one upper and lower character",
+                      },
+                    },
+                    {}
+                  )}
                 />
+                <button
+                  type="button"
+                  className="absolute right-3 bottom-3 text-2xl text-gray-600"
+                  onClick={() => {
+                    setSeePassword(!seePassword);
+                  }}
+                >
+                  {seePassword ? (
+                    <AiFillEyeInvisible></AiFillEyeInvisible>
+                  ) : (
+                    <AiFillEye></AiFillEye>
+                  )}
+                </button>
               </div>
               <hr className="my-6" />
               <button className="btn w-full rounded-none bg-primary hover:bg-primary text-white font-bold border-none hover:scale-[1.01] duration-300">
-                Sign Up
+                {creatingUser ? (
+                  <>
+                    <span className="loading loading-spinner loading-md"></span>
+                  </>
+                ) : (
+                  "Sign Up"
+                )}
               </button>
               {/* <div className="flex justify-end px-2 mt-3">
                 <span className="link text-gray-600">Forgot Password</span>
