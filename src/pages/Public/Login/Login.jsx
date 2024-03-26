@@ -106,7 +106,6 @@ const Login = () => {
               />
             </div>
             {/* PASSWORD */}
-            {/* PASSWORD */}
             <div className="mb-6 relative">
               <div className="flex items-center gap-1 mb-2">
                 <h4 className="font-bold text-lg">Password</h4>
@@ -176,6 +175,11 @@ const Login = () => {
               </>
             )}
           </form>
+          <p className="text-center text-gray-700 font-medium mt-5 text-xs md:text-base">
+            <Link to={"/forgot-password"} className=" hover:underline ml-1">
+              Forgot Password?
+            </Link>
+          </p>
           <h1 className="text-center text-gray-700 font-medium mt-10 text-xs md:text-base">
             {`Don't have an account?`}
             {` `}

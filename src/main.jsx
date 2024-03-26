@@ -11,6 +11,7 @@ import Register from "./pages/Public/Register/Register";
 import Login from "./pages/Public/Login/Login";
 import AuthProvider from "./providers/AuthProvider";
 import { Toaster } from "sonner";
+import ForgotPassword from "./pages/Public/ForgotPassword/ForgotPassword";
 
 const router = createBrowserRouter([
   // PUBLIC
@@ -36,6 +37,7 @@ const router = createBrowserRouter([
     path: "/login",
     element: <Login></Login>,
   },
+  { path: "/forgot-password", element: <ForgotPassword></ForgotPassword> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
