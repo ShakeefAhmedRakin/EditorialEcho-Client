@@ -5,11 +5,15 @@ import useAuth from "../../../hooks/useAuth";
 import { useForm } from "react-hook-form";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { toast } from "sonner";
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
 
 const Login = () => {
   // LOADING STATES
   const [loading, setLoading] = useState(false);
   const [seePassword, setSeePassword] = useState(false);
+
+  // AXIOS
+  const axiosPublic = useAxiosPublic();
 
   // FIREBASE AUTH
   const { user, signInUser, logOut, signInWithGoogle } = useAuth();
@@ -60,11 +64,30 @@ const Login = () => {
   // GOOGLE SIGN IN FUNCTION
   const handleGoogleSignIn = () => {
     signInWithGoogle()
-      .then(() => {
-        toast.success("Signed In Successfully. Redirecting..");
-        setTimeout(() => {
-          navigate("/");
-        }, 1000);
+      .then((res) => {
+        // AFTER FIREBASE CREATION
+        const user = res.user;
+        const userInfo = {
+          uid: user.uid,
+          email: user.email,
+          firstName: "",
+          lastName: "",
+          role: "",
+          photo: user.photoURL,
+          address: [],
+          orders: [],
+          phone: "",
+          creationTime: user.creationTime,
+          lastSignInTime: user.lastSignInTime,
+        };
+        axiosPublic.post("/create-user", userInfo).then((res) => {
+          if (res.data.insertedId || res.data.prevUser) {
+            toast.success("Signed In Successfully. Redirecting..");
+            setTimeout(() => {
+              navigate("/");
+            }, 1000);
+          }
+        });
       })
       .catch((err) => {
         toast.error(err.message);

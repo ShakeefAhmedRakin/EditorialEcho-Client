@@ -7,6 +7,7 @@ import { RiListSettingsLine } from "react-icons/ri";
 import { toast } from "sonner";
 import { GoHome } from "react-icons/go";
 import { FaShirt } from "react-icons/fa6";
+
 const Navbar = () => {
   // FIREBASE AUTH INFO
   const { user, logOut } = useAuth();
@@ -54,7 +55,11 @@ const Navbar = () => {
       });
   };
 
-  console.log(user);
+  // const axiosSecure = useAxiosSecure();
+
+  // useEffect(() => {
+  //   axiosSecure.get("/test").then((res) => console.log(res.data));
+  // }, [axiosSecure]);
 
   return (
     <div className={`relative shadow-2xl`}>

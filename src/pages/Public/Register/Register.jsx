@@ -5,11 +5,15 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
 
 const Register = () => {
   // LOADING STATES
   const [creatingUser, setCreatingUser] = useState(false);
   const [seePassword, setSeePassword] = useState(false);
+
+  // AXIOS
+  const axiosPublic = useAxiosPublic();
 
   // FIREBASE AUTH
   const { createUser, signInWithGoogle } = useAuth();
@@ -29,14 +33,34 @@ const Register = () => {
   const onSubmit = (data) => {
     setCreatingUser(true);
     createUser(data.Email, data.Password)
-      .then(() => {
-        toast.success("Signed Up Successfully. Redirecting..");
-        setCreatingUser(false);
-        reset();
-        setTimeout(() => {
-          navigate("/");
-        }, 1000);
+      .then((res) => {
+        // AFTER FIREBASE CREATION
+        const user = res.user;
+        const userInfo = {
+          uid: user.uid,
+          email: user.email,
+          firstName: "",
+          lastName: "",
+          role: "",
+          photo: user.photoURL,
+          address: [],
+          orders: [],
+          phone: "",
+          creationTime: user.creationTime,
+          lastSignInTime: user.lastSignInTime,
+        };
+        axiosPublic.post("/create-user", userInfo).then((res) => {
+          if (res.data.insertedId) {
+            toast.success("Signed Up Successfully. Redirecting..");
+            setCreatingUser(false);
+            reset();
+            setTimeout(() => {
+              navigate("/");
+            }, 1000);
+          }
+        });
       })
+      // ERROR HANDLING FOR FIREBASE
       .catch((err) => {
         toast.error(err.message);
         setCreatingUser(false);
@@ -47,11 +71,30 @@ const Register = () => {
   // GOOGLE SIGN IN FUNCTION
   const handleGoogleSignIn = () => {
     signInWithGoogle()
-      .then(() => {
-        toast.success("Signed In Successfully. Redirecting..");
-        setTimeout(() => {
-          navigate("/");
-        }, 1000);
+      .then((res) => {
+        // AFTER FIREBASE CREATION
+        const user = res.user;
+        const userInfo = {
+          uid: user.uid,
+          email: user.email,
+          firstName: "",
+          lastName: "",
+          role: "",
+          photo: user.photoURL,
+          address: [],
+          orders: [],
+          phone: "",
+          creationTime: user.creationTime,
+          lastSignInTime: user.lastSignInTime,
+        };
+        axiosPublic.post("/create-user", userInfo).then((res) => {
+          if (res.data.insertedId || res.data.prevUser) {
+            toast.success("Signed In Successfully. Redirecting..");
+            setTimeout(() => {
+              navigate("/");
+            }, 1000);
+          }
+        });
       })
       .catch((err) => {
         toast.error(err.message);
