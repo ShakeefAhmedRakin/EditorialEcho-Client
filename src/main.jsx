@@ -23,6 +23,7 @@ import DashboardRoot from "./pages/Private/DashboardRoot";
 // ROUTES
 // import AdminRoute from "./routes/AdminRoute";
 import PrivateRoute from "./routes/PrivateRoute";
+import DashboardHome from "./pages/Private/DashboardHome/DashboardHome";
 import Profile from "./pages/Private/Profile/Profile";
 
 // ADMIN COMPONENTS
@@ -71,11 +72,18 @@ const router = createBrowserRouter([
         path: "/dashboard",
         element: (
           <PrivateRoute>
+            <DashboardHome></DashboardHome>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/account",
+        element: (
+          <PrivateRoute>
             <Profile></Profile>
           </PrivateRoute>
         ),
       },
-      {},
     ],
   },
 ]);

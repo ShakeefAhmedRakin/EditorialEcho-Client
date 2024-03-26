@@ -7,10 +7,14 @@ import { RiListSettingsLine } from "react-icons/ri";
 import { toast } from "sonner";
 import { GoHome } from "react-icons/go";
 import { FaShirt } from "react-icons/fa6";
+import useUserInfo from "../../../hooks/useUserInfo";
 
 const Navbar = () => {
   // FIREBASE AUTH INFO
   const { user, logOut } = useAuth();
+
+  // GET ROLE
+  const { userInfo } = useUserInfo();
 
   // NAVIGATION FUNCTION
   const navigate = useNavigate();
@@ -93,8 +97,13 @@ const Navbar = () => {
                   <div
                     tabIndex={1}
                     role="button"
-                    className="btn btn-ghost btn-circle avatar"
+                    className="btn btn-ghost btn-circle avatar relative"
                   >
+                    {userInfo?.userInfo?.role === "admin" && (
+                      <span className="absolute badge border-none bg-red-500 text-white bottom-0 right-0 left-0 badge-xs">
+                        ADMIN
+                      </span>
+                    )}
                     <div className="w-full rounded-full">
                       <img
                         alt="Profile Avatar"
@@ -110,10 +119,19 @@ const Navbar = () => {
                     tabIndex={1}
                     className="mt-20 z-50 p-5 shadow space-y-3 dropdown-content bg-base-100 w-64 text-black"
                   >
-                    <button className="bg-transparent shadow-none border-none hover:bg-primary p-2 rounded-lg hover:text-white duration-300 btn w-full justify-start">
+                    <button
+                      onClick={() => {
+                        navigate("/dashboard");
+                      }}
+                      className="bg-transparent shadow-none border-none hover:bg-primary p-2 rounded-lg hover:text-white duration-300 btn w-full justify-start"
+                    >
                       <a className="text-xl font-medium flex items-center">
                         <RiListSettingsLine className="text-2xl mr-3"></RiListSettingsLine>
-                        <span className="flex-1">Account</span>
+                        <span className="flex-1">
+                          {userInfo?.userInfo?.role === "customer"
+                            ? "My Account"
+                            : "Dashboard"}
+                        </span>
                       </a>
                     </button>
                     <button
@@ -157,15 +175,24 @@ const Navbar = () => {
                 <>
                   <div className="w-full">
                     <div className="flex items-center flex-col gap-2">
-                      <img
-                        alt="Profile Avatar"
-                        src={
-                          user.photoURL
-                            ? user.photoURL
-                            : "https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg"
-                        }
-                        className="w-10 rounded-full"
-                      />
+                      <div className="relative">
+                        {userInfo?.userInfo?.role === "admin" && (
+                          <div className="absolute flex justify-center items-end w-full h-full">
+                            <span className="badge border-none bg-red-500 text-white bottom-0 right-0 badge-xs">
+                              ADMIN
+                            </span>
+                          </div>
+                        )}
+                        <img
+                          alt="Profile Avatar"
+                          src={
+                            user.photoURL
+                              ? user.photoURL
+                              : "https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg"
+                          }
+                          className="w-14 rounded-full"
+                        />
+                      </div>
                       <h1 className="text-center text-xs">{user.email}</h1>
                     </div>
                   </div>
@@ -202,10 +229,19 @@ const Navbar = () => {
               {user ? (
                 <>
                   <hr />
-                  <button className="bg-transparent shadow-none border-none hover:bg-primary p-2 rounded-lg hover:text-white duration-300 btn w-full justify-start">
+                  <button
+                    onClick={() => {
+                      navigate("/dashboard");
+                    }}
+                    className="bg-transparent shadow-none border-none hover:bg-primary p-2 rounded-lg hover:text-white duration-300 btn w-full justify-start"
+                  >
                     <a className="text-xl font-medium flex items-center">
                       <RiListSettingsLine className="text-2xl mr-3"></RiListSettingsLine>
-                      <span className="flex-1">Account</span>
+                      <span className="flex-1">
+                        {userInfo?.userInfo?.role === "customer"
+                          ? "My Account"
+                          : "Dashboard"}
+                      </span>
                     </a>
                   </button>
                   <button
