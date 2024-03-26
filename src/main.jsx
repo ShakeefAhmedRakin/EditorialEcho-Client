@@ -17,9 +17,30 @@ import AuthProvider from "./providers/AuthProvider";
 import ForgotPassword from "./pages/Public/ForgotPassword/ForgotPassword";
 import Error from "./components/Error/Error";
 
+// PRIVATE COMPONENTS
+import DashboardRoot from "./pages/Private/DashboardRoot";
+
+// ROUTES
+// import AdminRoute from "./routes/AdminRoute";
+import PrivateRoute from "./routes/PrivateRoute";
+import Profile from "./pages/Private/Profile/Profile";
+
 // ADMIN COMPONENTS
 
 const router = createBrowserRouter([
+  {
+    path: "/register",
+    element: <Register></Register>,
+  },
+  {
+    path: "/login",
+    element: <Login></Login>,
+  },
+  {
+    path: "/forgot-password",
+    element: <ForgotPassword></ForgotPassword>,
+  },
+
   // PUBLIC
   {
     path: "/",
@@ -36,17 +57,26 @@ const router = createBrowserRouter([
       },
     ],
   },
+
+  // PRIVATE
   {
-    path: "/register",
-    element: <Register></Register>,
-  },
-  {
-    path: "/login",
-    element: <Login></Login>,
-  },
-  {
-    path: "/forgot-password",
-    element: <ForgotPassword></ForgotPassword>,
+    path: "/dashboard",
+    element: (
+      <PrivateRoute>
+        <DashboardRoot></DashboardRoot>
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        path: "/dashboard",
+        element: (
+          <PrivateRoute>
+            <Profile></Profile>
+          </PrivateRoute>
+        ),
+      },
+      {},
+    ],
   },
 ]);
 

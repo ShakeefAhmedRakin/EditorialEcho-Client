@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FaGoogle } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import { useForm } from "react-hook-form";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
@@ -11,6 +11,13 @@ const Login = () => {
   // LOADING STATES
   const [loading, setLoading] = useState(false);
   const [seePassword, setSeePassword] = useState(false);
+
+  // REDIRECT FUNCTIONS
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Extracting the state information from location
+  const { from } = location.state || { from: { pathname: "/" } };
 
   // AXIOS
   const axiosPublic = useAxiosPublic();
@@ -26,20 +33,28 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  // REDIRECT FUNCTIONS
-  const navigate = useNavigate();
-
   // LOGIN FUNCTION
   const onSubmit = (data) => {
     setLoading(true);
     signInUser(data.Email, data.Password)
-      .then(() => {
-        toast.success("Logged In Successfully. Redirecting..");
-        setLoading(false);
-        reset();
-        setTimeout(() => {
-          navigate("/");
-        }, 1000);
+      .then((res) => {
+        axiosPublic
+          .put("/update-last-logged", {
+            uid: res.user.uid,
+            time: res.user.metadata.lastSignInTime,
+          })
+          .then((res) => {
+            if (res.data.modifiedCount > 0) {
+              toast.success("Logged In Successfully. Redirecting..");
+              setLoading(false);
+              reset();
+              setTimeout(() => {
+                navigate(from);
+              }, 1000);
+            } else {
+              toast.error("Error occurred during login.");
+            }
+          });
       })
       .catch((err) => {
         setLoading(false);
@@ -77,16 +92,33 @@ const Login = () => {
           address: [],
           orders: [],
           phone: "",
-          creationTime: user.creationTime,
-          lastSignInTime: user.lastSignInTime,
+          creationTime: user.metadata.creationTime,
+          lastSignInTime: user.metadata.lastSignInTime,
         };
         axiosPublic.post("/create-user", userInfo).then((res) => {
-          if (res.data.insertedId || res.data.prevUser) {
+          if (res.data.insertedId) {
             toast.success("Signed In Successfully. Redirecting..");
             setTimeout(() => {
-              navigate("/");
+              navigate(from);
             }, 1000);
           }
+          if (res.data.prevUser) {
+            axiosPublic
+              .put("/update-last-logged", {
+                uid: user.uid,
+                time: user.metadata.lastSignInTime,
+              })
+              .then((res) => {
+                if (res.data.modifiedCount > 0) {
+                  toast.success("Signed In Successfully. Redirecting..");
+                  setTimeout(() => {
+                    navigate(from);
+                  }, 1000);
+                }
+              });
+            return;
+          }
+          toast.error("Error occurred during login");
         });
       })
       .catch((err) => {

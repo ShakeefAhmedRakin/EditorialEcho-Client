@@ -46,9 +46,11 @@ const Register = () => {
           address: [],
           orders: [],
           phone: "",
-          creationTime: user.creationTime,
-          lastSignInTime: user.lastSignInTime,
+          creationTime: user.metadata.creationTime,
+          lastSignInTime: user.metadata.lastSignInTime,
         };
+
+        console.log(userInfo);
         axiosPublic.post("/create-user", userInfo).then((res) => {
           if (res.data.insertedId) {
             toast.success("Signed Up Successfully. Redirecting..");
@@ -84,16 +86,33 @@ const Register = () => {
           address: [],
           orders: [],
           phone: "",
-          creationTime: user.creationTime,
-          lastSignInTime: user.lastSignInTime,
+          creationTime: user.metadata.creationTime,
+          lastSignInTime: user.metadata.lastSignInTime,
         };
         axiosPublic.post("/create-user", userInfo).then((res) => {
-          if (res.data.insertedId || res.data.prevUser) {
+          if (res.data.insertedId) {
             toast.success("Signed In Successfully. Redirecting..");
             setTimeout(() => {
               navigate("/");
             }, 1000);
           }
+          if (res.data.prevUser) {
+            axiosPublic
+              .put("/update-last-logged", {
+                uid: user.uid,
+                time: user.metadata.lastSignInTime,
+              })
+              .then((res) => {
+                if (res.data.modifiedCount > 0) {
+                  toast.success("Signed In Successfully. Redirecting..");
+                  setTimeout(() => {
+                    navigate("/");
+                  }, 1000);
+                }
+              });
+            return;
+          }
+          toast.error("Error occurred during login");
         });
       })
       .catch((err) => {
