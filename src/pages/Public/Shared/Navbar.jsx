@@ -93,7 +93,11 @@ const Navbar = () => {
                     <div className="w-full rounded-full">
                       <img
                         alt="Profile Avatar"
-                        src="https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg"
+                        src={
+                          user.photoURL
+                            ? user.photoURL
+                            : "https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg"
+                        }
                       />
                     </div>
                   </div>
@@ -150,7 +154,11 @@ const Navbar = () => {
                     <div className="flex items-center flex-col gap-2">
                       <img
                         alt="Profile Avatar"
-                        src="https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg"
+                        src={
+                          user.photoURL
+                            ? user.photoURL
+                            : "https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg"
+                        }
                         className="w-10 rounded-full"
                       />
                       <h1 className="text-center text-xs">{user.email}</h1>

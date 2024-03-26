@@ -12,7 +12,7 @@ const Login = () => {
   const [seePassword, setSeePassword] = useState(false);
 
   // FIREBASE AUTH
-  const { user, signInUser, logOut } = useAuth();
+  const { user, signInUser, logOut, signInWithGoogle } = useAuth();
 
   // REACT HOOK FORM
   const {
@@ -57,6 +57,20 @@ const Login = () => {
       });
   };
 
+  // GOOGLE SIGN IN FUNCTION
+  const handleGoogleSignIn = () => {
+    signInWithGoogle()
+      .then(() => {
+        toast.success("Signed In Successfully. Redirecting..");
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      });
+  };
+
   return (
     <div className="h-screen flex flex-row-reverse relative overflow-y-hidden">
       <div
@@ -71,7 +85,10 @@ const Login = () => {
             <h1 className="font-heading font-semibold text-4xl">
               Street<span className="font-normal">Wise</span>
             </h1>
-            <button className="btn border border-gray-700 rounded-none hover:border-primary bg-transparent hover:bg-base-200 hidden lg:flex">
+            <button
+              onClick={() => handleGoogleSignIn()}
+              className="btn border border-gray-700 rounded-none hover:border-primary bg-transparent hover:bg-base-200 hidden lg:flex"
+            >
               <FaGoogle className="text-lg text-gray-70"></FaGoogle>Sign In With
               Google
             </button>

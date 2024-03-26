@@ -28,10 +28,12 @@ const ForgotPassword = () => {
         toast.success("Email Sent!");
         setLoading(false);
         setTimeout(() => navigate("/login"), 1000);
+        reset();
       })
       .catch((err) => {
         setLoading(false);
         toast.error(err.message);
+        reset();
       });
   };
 
