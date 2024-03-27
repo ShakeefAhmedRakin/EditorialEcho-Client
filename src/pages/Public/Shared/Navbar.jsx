@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { GoHome } from "react-icons/go";
 import { FaShirt } from "react-icons/fa6";
 import useUserInfo from "../../../hooks/useUserInfo";
+import { IoPersonOutline } from "react-icons/io5";
 
 const Navbar = () => {
   // FIREBASE AUTH INFO
@@ -97,28 +98,34 @@ const Navbar = () => {
                   <div
                     tabIndex={1}
                     role="button"
-                    className="btn btn-ghost btn-circle avatar relative"
+                    className="btn btn-ghost btn-circle relative"
                   >
                     {userInfo?.userInfo?.role === "admin" && (
                       <span className="absolute badge border-none bg-red-500 text-white bottom-0 right-0 left-0 badge-xs">
                         ADMIN
                       </span>
                     )}
-                    <div className="w-full rounded-full">
-                      <img
-                        alt="Profile Avatar"
-                        src={
-                          user.photoURL
-                            ? user.photoURL
-                            : "https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg"
-                        }
-                      />
+                    <div className="w-full rounded-full flex justify-center items-center">
+                      <IoPersonOutline className="text-4xl"></IoPersonOutline>
                     </div>
                   </div>
                   <ul
                     tabIndex={1}
                     className="mt-20 z-50 p-5 shadow space-y-3 dropdown-content bg-base-100 w-64 text-black"
                   >
+                    <h1 className="text-center text-sm">
+                      {userInfo?.userInfo?.firstName ? (
+                        <>
+                          <span>
+                            {userInfo?.userInfo?.firstName}{" "}
+                            {userInfo?.userInfo?.lastName}{" "}
+                          </span>
+                        </>
+                      ) : (
+                        <>{userInfo?.userInfo?.email}</>
+                      )}
+                    </h1>
+                    <hr />
                     <button
                       onClick={() => {
                         navigate("/dashboard");
@@ -183,17 +190,20 @@ const Navbar = () => {
                             </span>
                           </div>
                         )}
-                        <img
-                          alt="Profile Avatar"
-                          src={
-                            user.photoURL
-                              ? user.photoURL
-                              : "https://t4.ftcdn.net/jpg/03/46/93/61/360_F_346936114_RaxE6OQogebgAWTalE1myseY1Hbb5qPM.jpg"
-                          }
-                          className="w-14 rounded-full"
-                        />
+                        <IoPersonOutline className="text-4xl"></IoPersonOutline>
                       </div>
-                      <h1 className="text-center text-xs">{user.email}</h1>
+                      <h1 className="text-center text-xs">
+                        {userInfo?.userInfo?.firstName ? (
+                          <>
+                            <span>
+                              {userInfo?.userInfo?.firstName}{" "}
+                              {userInfo?.userInfo?.lastName}{" "}
+                            </span>
+                          </>
+                        ) : (
+                          <>{userInfo?.userInfo?.email}</>
+                        )}
+                      </h1>
                     </div>
                   </div>
                   <hr />

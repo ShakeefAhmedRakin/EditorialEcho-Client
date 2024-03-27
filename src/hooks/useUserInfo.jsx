@@ -6,7 +6,11 @@ const useUserInfo = () => {
   const { user, loading } = useAuth();
   const axiosSecure = useAxiosSecure();
 
-  const { data: userInfo = {}, isLoading: isLoading } = useQuery({
+  const {
+    data: userInfo = {},
+    isLoading: isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["userInfo"],
     queryFn: async () => {
       if (user) {
@@ -23,7 +27,12 @@ const useUserInfo = () => {
     enabled: !!user,
   });
 
-  return { userInfo, firebaseLoading: loading, mongoLoading: isLoading };
+  return {
+    userInfo,
+    firebaseLoading: loading,
+    mongoLoading: isLoading,
+    refetch,
+  };
 };
 
 export default useUserInfo;

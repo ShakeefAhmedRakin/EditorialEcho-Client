@@ -88,7 +88,6 @@ const Login = () => {
           firstName: "",
           lastName: "",
           role: "",
-          photo: user.photoURL,
           address: [],
           orders: [],
           phone: "",

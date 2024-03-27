@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import useUserInfo from "../../../hooks/useUserInfo";
 import { CiLogout } from "react-icons/ci";
 import useAuth from "../../../hooks/useAuth";
+import { IoPersonOutline } from "react-icons/io5";
 
 const DashboardNav = () => {
   const location = useLocation();
@@ -143,23 +144,14 @@ const DashboardNav = () => {
                 >
                   <div className="relative">
                     {userInfo?.userInfo?.role === "admin" && (
-                      <div className="absolute flex justify-center items-end w-full h-full">
-                        <span className="badge badge-xs bg-red-500 text-white border-none">
+                      <div className="absolute -bottom-3 flex justify-center items-end w-full h-full">
+                        <span className="badge badge-xs bg-red-500 text-white border-none font-bold">
                           ADMIN
                         </span>
                       </div>
                     )}
-                    {userInfo?.userInfo?.role === "customer" && (
-                      <div className="absolute flex justify-center items-end w-full h-full">
-                        <span className="badge badge-xs bg-blue-500 text-white border-none">
-                          CUSTOMER
-                        </span>
-                      </div>
-                    )}
-                    <img
-                      src="https://thumbs.dreamstime.com/b/mixed-race-woman-packing-clothing-orders-smiles-to-camera-women-85190817.jpg"
-                      className="aspect-square w-10 md:w-16 object-cover rounded-full"
-                    />
+
+                    <IoPersonOutline className="text-2xl md:text-3xl"></IoPersonOutline>
                   </div>
                   <IoIosArrowDropdown className="text-2xl"></IoIosArrowDropdown>
                 </div>
@@ -182,7 +174,7 @@ const DashboardNav = () => {
           </div>
           <hr className="mb-1" />
           {/* NAVIGATION TITLES */}
-          <div className="flex pt-3 gap-4 list-none text-base md:text-xl">
+          <div className="flex pt-3 gap-4 list-none text-base md:text-xl whitespace-nowrap overflow-scroll scrollbar">
             {links}
           </div>
         </div>

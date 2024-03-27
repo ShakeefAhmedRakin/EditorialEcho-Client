@@ -39,10 +39,9 @@ const Register = () => {
         const userInfo = {
           uid: user.uid,
           email: user.email,
-          firstName: "",
-          lastName: "",
-          role: "",
-          photo: user.photoURL,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          role: "customer",
           address: [],
           orders: [],
           phone: "",
@@ -50,7 +49,6 @@ const Register = () => {
           lastSignInTime: user.metadata.lastSignInTime,
         };
 
-        console.log(userInfo);
         axiosPublic.post("/create-user", userInfo).then((res) => {
           if (res.data.insertedId) {
             toast.success("Signed Up Successfully. Redirecting..");
@@ -82,7 +80,6 @@ const Register = () => {
           firstName: "",
           lastName: "",
           role: "",
-          photo: user.photoURL,
           address: [],
           orders: [],
           phone: "",
@@ -148,6 +145,62 @@ const Register = () => {
               Create Account
             </h1>
             <form onSubmit={handleSubmit(onSubmit)}>
+              {/* Full Name */}
+              <div className="grid grid-cols-2 gap-x-6">
+                {/* FIRST NAME */}
+                <div className="mb-6">
+                  <div className="flex items-center gap-1 mb-2">
+                    <h4 className="font-bold text-lg">First Name</h4>
+                    {errors.firstName?.message && (
+                      <p
+                        role="alert"
+                        className="text-[10px] text-red-500 ml-2 font-semibold"
+                      >
+                        {errors.firstName?.message}
+                      </p>
+                    )}
+                  </div>
+                  <input
+                    type="text"
+                    className="w-full border rounded-none h-12 px-4 focus:outline-none bg-gray-100"
+                    placeholder="First Name"
+                    {...register("firstName", {
+                      required: "First Name is required*",
+                      pattern: {
+                        value: /^[a-zA-Z' -]+$/,
+                        message: "Invalid first name",
+                      },
+                    })}
+                  />
+                </div>
+                {/* LAST NAME */}
+                <div className="mb-6">
+                  <div className="flex items-center gap-1 mb-2">
+                    <h4 className="font-bold text-lg">Last Name</h4>
+                    {errors.lastName?.message && (
+                      <p
+                        role="alert"
+                        className="text-[10px] text-red-500 ml-2 font-semibold"
+                      >
+                        {errors.lastName?.message}
+                      </p>
+                    )}
+                  </div>
+                  <input
+                    type="text"
+                    className="w-full border rounded-none h-12 px-4 focus:outline-none bg-gray-100"
+                    placeholder="Last Name"
+                    {...register("lastName", {
+                      required: "Last name is required*",
+                      pattern: {
+                        value: /^[a-zA-Z' -]+$/,
+                        message: "Invalid first name",
+                      },
+                    })}
+                  />
+                </div>
+              </div>
+
               {/* EMAIL */}
               <div className="mb-6">
                 <div className="flex items-center gap-1 mb-2">
@@ -155,7 +208,7 @@ const Register = () => {
                   {errors.Email?.message && (
                     <p
                       role="alert"
-                      className="text-xs text-red-500 ml-2 font-semibold"
+                      className="text-[10px] text-red-500 ml-2 font-semibold"
                     >
                       {errors.Email?.message}
                     </p>
@@ -181,7 +234,7 @@ const Register = () => {
                   {errors.Password?.message && (
                     <p
                       role="alert"
-                      className="text-xs text-red-500 ml-2 font-semibold"
+                      className="text-[10px] text-red-500 ml-2 font-semibold"
                     >
                       {errors.Password?.message}
                     </p>
@@ -232,7 +285,7 @@ const Register = () => {
                 )}
               </button>
             </form>
-            <h1 className="text-center text-gray-700 font-medium mt-10 text-xs md:text-base">
+            <h1 className="text-center text-gray-700 font-medium mt-10 text-[10px] md:text-base">
               Already have an account?{" "}
               <Link
                 to={"/login"}
