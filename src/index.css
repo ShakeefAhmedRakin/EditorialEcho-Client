@@ -26,7 +26,6 @@
 
   /* CSS */
 .scrollbar {
-  overflow-y: hidden;
   scrollbar-width: thin;
   scrollbar-color: #888 transparent;
 }

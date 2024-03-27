@@ -31,7 +31,7 @@ const Account = () => {
     setLastName(userInfo?.userInfo?.lastName);
   }, [userInfo]);
 
-  const [address, SetAddress] = useState([
+  const [address, setAddress] = useState([
     {
       addressLine: "West Rajabazar 66/12",
       city: "Dhaka",
@@ -114,7 +114,7 @@ const Account = () => {
   return (
     <>
       {/* INFORMATION */}
-      <div className="flex flex-col md:flex-row h-full">
+      <div className="flex flex-col md:flex-row">
         {/* PROFILE INFO */}
         <div className="flex-1">
           {/* TITLE */}
@@ -139,7 +139,9 @@ const Account = () => {
               />
               <div
                 className={`absolute h-full top-0 flex gap-1 ${
-                  firstNameEdit ? "w-16 right-[50px] p-2" : "w-16 right-0 p-1"
+                  firstNameEdit
+                    ? "w-16 right-[50px] p-2 -top-1 md:top-0"
+                    : "w-16 right-0 p-1"
                 }`}
               >
                 {firstNameEdit ? (
@@ -197,7 +199,9 @@ const Account = () => {
               />
               <div
                 className={`absolute h-full top-0 flex gap-1 ${
-                  lastNameEdit ? "w-16 right-[50px] p-2" : "w-16 right-0 p-1"
+                  lastNameEdit
+                    ? "w-16 right-[50px] p-2 -top-1 md:top-0"
+                    : "w-16 right-0 p-1"
                 }`}
               >
                 {lastNameEdit ? (
@@ -269,7 +273,9 @@ const Account = () => {
               />
               <div
                 className={`absolute h-full top-0 flex gap-1 ${
-                  phoneEdit ? "w-16 right-[50px] p-2" : "w-16 right-0 p-1"
+                  phoneEdit
+                    ? "w-16 right-[50px] p-2 -top-1 md:top-0"
+                    : "w-16 right-0 p-1"
                 }`}
               >
                 {phoneEdit ? (
@@ -349,7 +355,7 @@ const Account = () => {
                 placeholder="Address Line"
               />
             </div>
-            <div className="grid grid-cols-3 gap-x-4">
+            <div className="grid grid-cols-1 gap-x-">
               <div className="my-2">
                 <input
                   type="text"

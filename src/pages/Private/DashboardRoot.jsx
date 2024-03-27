@@ -3,19 +3,21 @@ import DashboardNav from "./Shared/DashboardNav";
 
 const DashboardRoot = () => {
   return (
-    <div className="h-screen flex flex-col overflow-y-hidden">
-      <DashboardNav></DashboardNav>
+    <>
+      <div className="fixed w-full z-50 top-0">
+        <DashboardNav></DashboardNav>
+      </div>
       <div
-        className="flex-1 container mt-4 mx-auto px-2 font-heading"
+        className="min-h-screen container mx-auto px-2 font-heading pt-44 md:pt-48 lg:pt-[200px]"
         data-aos="fade-up"
         data-aos-delay="0"
         data-aos-duration="800"
       >
-        <div className="shadow-md border rounded-t-lg h-full overflow-y-auto p-4 md:p-8">
-          <Outlet></Outlet>
+        <div className="shadow-md border rounded-lg p-4 md:p-8 h-full">
+          <Outlet />
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

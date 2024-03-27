@@ -174,7 +174,7 @@ const DashboardNav = () => {
           </div>
           <hr className="mb-1" />
           {/* NAVIGATION TITLES */}
-          <div className="flex pt-3 gap-4 list-none text-base md:text-xl whitespace-nowrap overflow-scroll scrollbar">
+          <div className="flex pt-3 gap-4 list-none text-base md:text-xl whitespace-nowrap overflow-x-auto scrollbar">
             {links}
           </div>
         </div>
