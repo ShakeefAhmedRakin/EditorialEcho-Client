@@ -108,13 +108,11 @@ const Login = () => {
                 uid: user.uid,
                 time: user.metadata.lastSignInTime,
               })
-              .then((res) => {
-                if (res.data.modifiedCount > 0) {
-                  toast.success("Signed In Successfully. Redirecting..");
-                  setTimeout(() => {
-                    navigate(from);
-                  }, 1000);
-                }
+              .then(() => {
+                toast.success("Signed In Successfully. Redirecting..");
+                setTimeout(() => {
+                  navigate(from);
+                }, 1000);
               });
             return;
           }

@@ -7,7 +7,7 @@ export default {
         text: "#22262a",
         background: "#f9fafb",
         primary: "#131112",
-        secondary: "#ECD295",
+        secondary: "#644125",
       },
       fontFamily: {
         heading: ["Work Sans"],

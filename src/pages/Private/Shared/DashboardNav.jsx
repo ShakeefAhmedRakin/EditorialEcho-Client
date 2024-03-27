@@ -14,33 +14,85 @@ const DashboardNav = () => {
   const links = (
     <>
       <Link
-        to={"/dashboard"}
-        className={`duration-300 ${
-          location.pathname === "/dashboard" && "font-semibold"
-        }`}
-      >
-        <li>Dashboard</li>
-        <div
-          className={`w-full duration-300 p-[2px] rounded-full ${
-            location.pathname === "/dashboard" ? "bg-primary" : "bg-transparent"
-          }`}
-        ></div>
-      </Link>
-      <Link
         to={"/dashboard/account"}
         className={`duration-300 ${
           location.pathname === "/dashboard/account" && "font-semibold"
         }`}
       >
-        <li>Account</li>
+        <li>My Account</li>
         <div
-          className={`w-full duration-300 p-[2px] rounded-full ${
+          className={`w-full duration-300 p-[3px] rounded-t-full ${
             location.pathname === "/dashboard/account"
               ? "bg-primary"
               : "bg-transparent"
           }`}
         ></div>
       </Link>
+      <hr />
+      {userInfo?.userInfo?.role === "admin" && (
+        <>
+          <Link
+            to={"/dashboard"}
+            className={`duration-300 ${
+              location.pathname === "/dashboard" && "font-semibold"
+            }`}
+          >
+            <li>Dashboard</li>
+            <div
+              className={`w-full duration-300 p-[3px] rounded-t-full ${
+                location.pathname === "/dashboard"
+                  ? "bg-primary"
+                  : "bg-transparent"
+              }`}
+            ></div>
+          </Link>
+          <Link
+            to={"/dashboard/wip"}
+            className={`duration-300 ${
+              location.pathname === "/dashboard/wip" && "font-semibold"
+            }`}
+          >
+            <li>Products</li>
+            <div
+              className={`w-full duration-300 p-[3px] rounded-t-full ${
+                location.pathname === "/dashboard/wip"
+                  ? "bg-primary"
+                  : "bg-transparent"
+              }`}
+            ></div>
+          </Link>
+          <Link
+            to={"/dashboard/wip"}
+            className={`duration-300 ${
+              location.pathname === "/dashboard/wip" && "font-semibold"
+            }`}
+          >
+            <li>Orders</li>
+            <div
+              className={`w-full duration-300 p-[3px] rounded-t-full ${
+                location.pathname === "/dashboard/wip"
+                  ? "bg-primary"
+                  : "bg-transparent"
+              }`}
+            ></div>
+          </Link>
+          <Link
+            to={"/dashboard/wip"}
+            className={`duration-300 ${
+              location.pathname === "/dashboard/wip" && "font-semibold"
+            }`}
+          >
+            <li>Staff</li>
+            <div
+              className={`w-full duration-300 p-[3px] rounded-t-full ${
+                location.pathname === "/dashboard/wip"
+                  ? "bg-primary"
+                  : "bg-transparent"
+              }`}
+            ></div>
+          </Link>
+        </>
+      )}
     </>
   );
 
@@ -51,7 +103,12 @@ const DashboardNav = () => {
 
   return (
     <>
-      <div className="bg-base-200 shadow-md">
+      <div
+        className="bg-base-200 shadow-md"
+        data-aos="fade-down"
+        data-aos-delay="0"
+        data-aos-duration="800"
+      >
         <div className="container mx-auto px-2 md:px-4 font-heading">
           {/* TOP SECTION */}
           <div className="py-3">
@@ -69,7 +126,7 @@ const DashboardNav = () => {
             {/* MIDDLE LEFT CONTENT */}
             <h1 className="text-lg md:text-3xl font-bold">
               {location.pathname === "/dashboard" && "Dashboard"}
-              {location.pathname === "/dashboard/account" && "Account"}
+              {location.pathname === "/dashboard/account" && "Account Details"}
             </h1>
             {/* MIDDLE RIGHT CONTENT */}
             <div className="flex items-center gap-2">
@@ -125,7 +182,7 @@ const DashboardNav = () => {
           </div>
           <hr className="mb-1" />
           {/* NAVIGATION TITLES */}
-          <div className="flex gap-4 list-none text-base md:text-xl">
+          <div className="flex pt-3 gap-4 list-none text-base md:text-xl">
             {links}
           </div>
         </div>

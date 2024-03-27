@@ -24,7 +24,7 @@ import DashboardRoot from "./pages/Private/DashboardRoot";
 // import AdminRoute from "./routes/AdminRoute";
 import PrivateRoute from "./routes/PrivateRoute";
 import DashboardHome from "./pages/Private/DashboardHome/DashboardHome";
-import Profile from "./pages/Private/Profile/Profile";
+import Account from "./pages/Private/Account/Account";
 
 // ADMIN COMPONENTS
 
@@ -80,7 +80,7 @@ const router = createBrowserRouter([
         path: "/dashboard/account",
         element: (
           <PrivateRoute>
-            <Profile></Profile>
+            <Account></Account>
           </PrivateRoute>
         ),
       },
