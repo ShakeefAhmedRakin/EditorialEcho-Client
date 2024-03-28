@@ -40,7 +40,7 @@ const AuthProvider = ({ children }) => {
     return signOut(auth);
   };
 
-  const forgotPassword = (email) => {
+  const resetPassword = (email) => {
     return sendPasswordResetEmail(auth, email);
   };
 
@@ -71,7 +71,7 @@ const AuthProvider = ({ children }) => {
     signInUser,
     logOut,
     signInWithGoogle,
-    forgotPassword,
+    resetPassword,
   };
   return (
     <>

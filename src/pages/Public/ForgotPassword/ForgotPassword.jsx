@@ -6,7 +6,7 @@ import { useState } from "react";
 
 const ForgotPassword = () => {
   // FIREBASE FUNCTION
-  const { forgotPassword } = useAuth();
+  const { resetPassword } = useAuth();
   const [loading, setLoading] = useState(false);
 
   //   NAVIGATION
@@ -23,7 +23,7 @@ const ForgotPassword = () => {
   // FORGOT PASSWORD FUNCTION
   const handleForgotPassword = (data) => {
     setLoading(true);
-    forgotPassword(data.Email)
+    resetPassword(data.Email)
       .then(() => {
         toast.success("Email Sent!");
         setLoading(false);

@@ -22,14 +22,14 @@ const DashboardNav = () => {
       >
         <li>My Account</li>
         <div
-          className={`w-full duration-300 p-[3px] rounded-t-full ${
+          className={`w-full duration-300 p-[2px] rounded-t-full ${
             location.pathname === "/dashboard/account"
               ? "bg-primary"
-              : "bg-transparent"
+              : "bg-gray-300"
           }`}
         ></div>
       </Link>
-      <hr />
+
       {userInfo?.userInfo?.role === "admin" && (
         <>
           <Link
@@ -40,10 +40,10 @@ const DashboardNav = () => {
           >
             <li>Dashboard</li>
             <div
-              className={`w-full duration-300 p-[3px] rounded-t-full ${
+              className={`w-full duration-300 p-[2px] rounded-t-full ${
                 location.pathname === "/dashboard"
                   ? "bg-primary"
-                  : "bg-transparent"
+                  : "bg-gray-300"
               }`}
             ></div>
           </Link>
@@ -55,10 +55,10 @@ const DashboardNav = () => {
           >
             <li>Products</li>
             <div
-              className={`w-full duration-300 p-[3px] rounded-t-full ${
+              className={`w-full duration-300 p-[2px] rounded-t-full ${
                 location.pathname === "/dashboard/wip"
                   ? "bg-primary"
-                  : "bg-transparent"
+                  : "bg-gray-300"
               }`}
             ></div>
           </Link>
@@ -70,10 +70,10 @@ const DashboardNav = () => {
           >
             <li>Orders</li>
             <div
-              className={`w-full duration-300 p-[3px] rounded-t-full ${
+              className={`w-full duration-300 p-[2px] rounded-t-full ${
                 location.pathname === "/dashboard/wip"
                   ? "bg-primary"
-                  : "bg-transparent"
+                  : "bg-gray-300"
               }`}
             ></div>
           </Link>
@@ -85,10 +85,10 @@ const DashboardNav = () => {
           >
             <li>Staff</li>
             <div
-              className={`w-full duration-300 p-[3px] rounded-t-full ${
+              className={`w-full duration-300 p-[2px] rounded-t-full ${
                 location.pathname === "/dashboard/wip"
                   ? "bg-primary"
-                  : "bg-transparent"
+                  : "bg-gray-300"
               }`}
             ></div>
           </Link>
@@ -123,18 +123,14 @@ const DashboardNav = () => {
           </div>
           <hr />
           {/* MIDDLE SECTION */}
-          <div className="py-1 flex justify-between items-center">
+          <div className="flex justify-between items-center">
             {/* MIDDLE LEFT CONTENT */}
             <h1 className="text-lg md:text-3xl font-bold">
               {location.pathname === "/dashboard" && "Dashboard"}
               {location.pathname === "/dashboard/account" && "Account Details"}
             </h1>
             {/* MIDDLE RIGHT CONTENT */}
-            <div className="flex items-center gap-2">
-              {/* NEED HELP BUTTON */}
-              <button className="btn btn-xs md:btn-md text-primary shadow-none border-transparent hover:border-primary hover:bg-transparent">
-                Need Help?
-              </button>
+            <div className="flex items-center gap-2 py-3">
               {/* PROFILE DROPDOWN */}
               <div className="dropdown dropdown-end">
                 <div

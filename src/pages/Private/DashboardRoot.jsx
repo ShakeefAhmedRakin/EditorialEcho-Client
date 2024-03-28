@@ -8,7 +8,7 @@ const DashboardRoot = () => {
         <DashboardNav></DashboardNav>
       </div>
       <div
-        className="min-h-screen container mx-auto px-2 font-heading pt-44 md:pt-48 lg:pt-[200px]"
+        className="min-h-screen container mx-auto px-2 font-heading pt-48 md:pt-52 lg:pt-[200px]"
         data-aos="fade-up"
         data-aos-delay="0"
         data-aos-duration="800"

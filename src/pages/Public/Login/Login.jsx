@@ -87,7 +87,7 @@ const Login = () => {
           email: user.email,
           firstName: "",
           lastName: "",
-          role: "",
+          role: "customer",
           address: [],
           orders: [],
           phone: "",
@@ -100,6 +100,7 @@ const Login = () => {
             setTimeout(() => {
               navigate(from);
             }, 1000);
+            return;
           }
           if (res.data.prevUser) {
             axiosPublic

@@ -79,7 +79,7 @@ const Register = () => {
           email: user.email,
           firstName: "",
           lastName: "",
-          role: "",
+          role: "customer",
           address: [],
           orders: [],
           phone: "",
@@ -92,6 +92,7 @@ const Register = () => {
             setTimeout(() => {
               navigate("/");
             }, 1000);
+            return;
           }
           if (res.data.prevUser) {
             axiosPublic
@@ -99,13 +100,11 @@ const Register = () => {
                 uid: user.uid,
                 time: user.metadata.lastSignInTime,
               })
-              .then((res) => {
-                if (res.data.modifiedCount > 0) {
-                  toast.success("Signed In Successfully. Redirecting..");
-                  setTimeout(() => {
-                    navigate("/");
-                  }, 1000);
-                }
+              .then(() => {
+                toast.success("Signed In Successfully. Redirecting..");
+                setTimeout(() => {
+                  navigate("/");
+                }, 1000);
               });
             return;
           }

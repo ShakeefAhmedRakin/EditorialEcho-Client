@@ -2,43 +2,45 @@ import { useEffect, useState } from "react";
 import { MdOutlineEdit } from "react-icons/md";
 import { RxCross1 } from "react-icons/rx";
 import useUserInfo from "../../../hooks/useUserInfo";
-import { FaCheck } from "react-icons/fa";
+import { FaCheck, FaMinus } from "react-icons/fa";
 import { toast } from "sonner";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { RxCross2 } from "react-icons/rx";
 import { FaPlus } from "react-icons/fa6";
+import { useForm } from "react-hook-form";
+import useAuth from "../../../hooks/useAuth";
 
 const Account = () => {
   const { userInfo, refetch } = useUserInfo();
+  const { user, resetPassword } = useAuth();
   const axiosSecure = useAxiosSecure();
 
+  // REACT HOOK FORM
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+
   // INFORMATION STATES
-  const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [address, setAddress] = useState([]);
 
   // EDITABLE STATES
-  const [phoneEdit, setPhoneEdit] = useState(false);
   const [firstNameEdit, setFirstNameEdit] = useState(false);
   const [lastNameEdit, setLastNameEdit] = useState(false);
+  const [addAddressForm, setAddAddressForm] = useState(false);
 
   // FETCHING INFO
   useEffect(() => {
-    setPhone(userInfo?.userInfo?.phone);
     setEmail(userInfo?.userInfo?.email);
     setFirstName(userInfo?.userInfo?.firstName);
     setLastName(userInfo?.userInfo?.lastName);
+    setAddress(userInfo?.userInfo?.address);
   }, [userInfo]);
-
-  const [address, setAddress] = useState([
-    {
-      addressLine: "West Rajabazar 66/12",
-      city: "Dhaka",
-      country: "Bangladesh",
-      zip: "1142",
-    },
-  ]);
 
   // FUNCTION FOR UPDATING INFO
   const handleUpdateInfo = async (type) => {
@@ -84,31 +86,59 @@ const Account = () => {
         setLastName(userInfo?.userInfo?.lastName);
       }
     }
-    if (type === "phone") {
-      const trimmedPhone = phone.trim();
-      if (
-        trimmedPhone &&
-        /^[0-9\s()-]+$/.test(trimmedPhone) &&
-        trimmedPhone.length === 11
-      ) {
-        // UPDATING
-        axiosSecure
-          .put("/update-user-info", {
-            uid: userInfo?.userInfo?.uid,
-            type: type,
-            data: trimmedPhone,
-          })
-          .then((res) => {
-            if (res.data.modifiedCount > 0) {
-              toast.success("Updated");
-              refetch();
-            }
-          });
-      } else {
-        toast.error("Invalid phone number");
-        setPhone(userInfo?.userInfo?.phone);
-      }
-    }
+  };
+
+  // FUNCTION FOR ADDING ADDRESS
+  const handleAddressAdd = (data) => {
+    axiosSecure
+      .put("/update-user-info", {
+        uid: userInfo?.userInfo?.uid,
+        type: "address",
+        data: data,
+      })
+      .then((res) => {
+        if (res.data.modifiedCount > 0) {
+          toast.success("Added address");
+          refetch();
+          reset();
+          setAddAddressForm(!addAddressForm);
+          return;
+        } else {
+          toast.error("Error Occurred");
+        }
+      })
+      .catch(() => toast.error("Error Occurred"));
+  };
+
+  // FUNCTION FOR DELETE ADDRESS
+  const handleDeleteAddress = (index) => {
+    axiosSecure
+      .put("/update-user-info", {
+        uid: userInfo?.userInfo?.uid,
+        type: "address-delete",
+        index: index,
+      })
+      .then((res) => {
+        if (res.data.modifiedCount > 0) {
+          toast.success("Deleted address");
+          refetch();
+          return;
+        } else {
+          toast.error("Error Occurred");
+        }
+      })
+      .catch(() => toast.error("Error Occurred"));
+  };
+
+  // PASSWORD RESET FUNCTION
+  const handleResetPassword = () => {
+    resetPassword(user?.email)
+      .then(() => {
+        toast.success("Email Sent!");
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      });
   };
 
   return (
@@ -118,10 +148,10 @@ const Account = () => {
         {/* PROFILE INFO */}
         <div className="flex-1">
           {/* TITLE */}
-          <h1 className="text-2xl md:text-3xl font-bold">Profile Details</h1>
+          <h1 className="text-xl font-bold">Profile Details</h1>
           {/* First NAME */}
           <div className="my-4">
-            <h2 className="text-lg md:text-xl font-semibold text-gray-700 mb-2">
+            <h2 className="text-lg font-semibold text-gray-700 mb-2">
               First Name
             </h2>
             <div className="relative">
@@ -140,7 +170,7 @@ const Account = () => {
               <div
                 className={`absolute h-full top-0 flex gap-1 ${
                   firstNameEdit
-                    ? "w-16 right-[50px] p-2 -top-1 md:top-0"
+                    ? "w-16 right-[50px] p-2 -top-[5px] md:top-0"
                     : "w-16 right-0 p-1"
                 }`}
               >
@@ -181,7 +211,7 @@ const Account = () => {
           </div>
           {/* Last Name */}
           <div className="my-4">
-            <h2 className="text-lg md:text-xl font-semibold text-gray-700 mb-2">
+            <h2 className="text-lg font-semibold text-gray-700 mb-2">
               Last Name
             </h2>
             <div className="relative">
@@ -200,7 +230,7 @@ const Account = () => {
               <div
                 className={`absolute h-full top-0 flex gap-1 ${
                   lastNameEdit
-                    ? "w-16 right-[50px] p-2 -top-1 md:top-0"
+                    ? "w-16 right-[50px] p-2 -top-[5px] md:top-0"
                     : "w-16 right-0 p-1"
                 }`}
               >
@@ -241,7 +271,7 @@ const Account = () => {
           </div>
           {/* EMAIL */}
           <div className="my-4">
-            <h2 className="text-lg md:text-xl font-semibold text-gray-700 mb-2">
+            <h2 className="text-lg font-semibold text-gray-700 mb-2">
               Email Address
             </h2>
             <input
@@ -253,132 +283,178 @@ const Account = () => {
               value={email}
             />
           </div>
-          {/* PHONE */}
           <div className="my-4">
-            <h2 className="text-lg md:text-xl font-semibold text-gray-700 mb-2">
-              Phone Number
-            </h2>
-            <div className="relative">
-              <input
-                type="text"
-                disabled={!phoneEdit}
-                onChange={(e) => {
-                  setPhone(e.target.value);
-                }}
-                className={`w-full pr-28 border p-4 duration-300 text-sm md:text-lg ${
-                  phone || "border-red-500 border"
-                } ${phoneEdit ? "bg-white" : "bg-gray-200 "}`}
-                placeholder="Phone number is required"
-                value={phone}
-              />
-              <div
-                className={`absolute h-full top-0 flex gap-1 ${
-                  phoneEdit
-                    ? "w-16 right-[50px] p-2 -top-1 md:top-0"
-                    : "w-16 right-0 p-1"
-                }`}
-              >
-                {phoneEdit ? (
-                  <>
-                    <button
-                      onClick={() => {
-                        handleUpdateInfo("phone").then(() => {
-                          setPhoneEdit(!phoneEdit);
-                        });
-                      }}
-                      className="h-full text-2xl w-full btn bg-green-500 hover:bg-green-600 text-white border-none shadow-none"
-                    >
-                      <FaCheck></FaCheck>
-                    </button>
-                    <button
-                      onClick={() => {
-                        setPhoneEdit(!phoneEdit);
-                        setPhone(userInfo?.userInfo?.phone);
-                      }}
-                      className="h-full text-2xl w-full btn bg-red-500 hover:bg-red-600 text-white border-none shadow-none"
-                    >
-                      <RxCross1></RxCross1>
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <button
-                      onClick={() => setPhoneEdit(!phoneEdit)}
-                      className="h-full text-2xl w-full btn bg-transparent hover:bg-transparent border-none shadow-none"
-                    >
-                      <MdOutlineEdit></MdOutlineEdit>
-                    </button>
-                  </>
-                )}
-              </div>
-            </div>
+            <button
+              onClick={() => handleResetPassword()}
+              className="btn w-1/2 bg-transparent border-primary hover:border-red-500 hover:bg-red-500 hover:text-white"
+            >
+              Reset Password
+            </button>
           </div>
         </div>
         <div className="divider divider-horizontal"></div>
         {/* ADDRESS */}
-        <div className="flex-1">
+        <div className="flex-1 w-full md:max-w-lg">
           {/* TITLE */}
-          <h1 className="text-2xl md:text-3xl font-bold text-center">
-            Address
+          <h1 className="text-xl font-bold flex gap-1 items-center">
+            Address{" "}
+            <span
+              className={`text-base ${
+                address?.length === 3 || address?.length === 0
+                  ? "text-red-500"
+                  : "text-gray-500"
+              } font-medium`}
+            >
+              ({address?.length})
+            </span>
           </h1>
-          {address.map((item, index) => (
-            <div key={index} className="text-xl">
-              <hr className="my-2" />
-              <div className="flex items-center">
-                {/* ADDRESS */}
-                <div className="flex-1">
-                  <h1>{item.addressLine}</h1>
-                  <h1>
-                    {item.city} {item.zip}
-                  </h1>
-                  <h1>{item.country}</h1>
+          {address?.length > 0 ? (
+            <>
+              {address?.map((item, index) => (
+                <div key={index}>
+                  <hr className="my-2" />
+                  <div className="flex items-center">
+                    {/* ADDRESS */}
+                    <div className="flex-1">
+                      <h1>{item.addressLine}</h1>
+                      <h1>
+                        {item.city} {item.zip}
+                      </h1>
+                      <h1>{item.country}</h1>
+                      <h1>+88 {item.phone}</h1>
+                    </div>
+                    {/* DELETE BUTTON */}
+                    <div className="flex justify-center">
+                      <button
+                        onClick={() => handleDeleteAddress(index)}
+                        className="btn border-red-500 bg-transparent hover:bg-transparent text-red-600 hover:border-red-100 hover:bg-red-100 text-xl"
+                      >
+                        <RxCross2></RxCross2>
+                      </button>
+                    </div>
+                  </div>
+                  <hr className="my-2" />
                 </div>
-                {/* BUTTONS */}
-                <div className="flex justify-center">
-                  <button className="btn border-none bg-red-600 hover:bg-red-700 text-white text-xl">
-                    <RxCross2></RxCross2>
-                  </button>
-                </div>
-              </div>
-
-              <hr className="my-2" />
-            </div>
-          ))}
-          <button className="btn border-none bg-green-500 hover:bg-green-600 text-white">
-            Add <FaPlus></FaPlus>
-          </button>
-          <form>
+              ))}
+            </>
+          ) : (
+            <>
+              <h1 className="text-center text-red-500 py-16">
+                Address is required
+              </h1>
+            </>
+          )}
+          {address?.length < 3 && (
+            <button
+              onClick={() => {
+                if (!addAddressForm && address.length > 2) {
+                  toast.error("Maximum three addresses");
+                  return;
+                }
+                setAddAddressForm(!addAddressForm);
+              }}
+              className={`btn ${
+                addAddressForm
+                  ? "border-red-500 hover:border-red-100 hover:bg-red-100  text-red-500"
+                  : "border-green-500 hover:border-green-100 hover:bg-green-100  text-green-500"
+              } w-full bg-transparent `}
+            >
+              {addAddressForm ? (
+                <>
+                  Cancel <FaMinus></FaMinus>
+                </>
+              ) : (
+                <>
+                  Add <FaPlus></FaPlus>
+                </>
+              )}
+            </button>
+          )}
+          {addAddressForm && (
             <div className="my-2">
-              <input
-                type="text"
-                className={`w-full pr-28 border p-3 duration-300 text-sm md:text-lg `}
-                placeholder="Address Line"
-              />
+              <form onSubmit={handleSubmit(handleAddressAdd)}>
+                {/* ADDRESS LINE */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-1 ">
+                  <div className="my-0.5">
+                    <input
+                      type="text"
+                      className={`w-full border p-3 duration-300 outline-none text-sm ${
+                        errors.addressLine && "border-red-300"
+                      }`}
+                      placeholder="Address Line"
+                      {...register("addressLine", {
+                        required: true,
+                      })}
+                    />
+                  </div>
+                  <div className="my-0.5">
+                    <input
+                      type="text"
+                      className={`w-full border p-3 duration-300 text-sm outline-none ${
+                        errors.phone && "border-red-300"
+                      }`}
+                      placeholder="Phone"
+                      {...register("phone", {
+                        required: true,
+                        pattern: {
+                          value: /^[0-9\s()-]+$/,
+                          message: true,
+                        },
+                        minLength: 11,
+                      })}
+                    />
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-x-1">
+                  <div className="my-0.5">
+                    <input
+                      type="select"
+                      className={`w-full border p-3 duration-300 text-sm outline-none ${
+                        errors.country && "border-red-300"
+                      }`}
+                      placeholder="Country"
+                      {...register("country", {
+                        required: true,
+                      })}
+                    />
+                  </div>
+                  <div className="my-0.5">
+                    <input
+                      type="text"
+                      className={`w-full border p-3 duration-300 text-sm outline-none ${
+                        errors.city && "border-red-300"
+                      }`}
+                      placeholder="City"
+                      {...register("city", {
+                        required: true,
+                      })}
+                    />
+                  </div>
+                  <div className="my-0.5">
+                    <input
+                      type="text"
+                      className={`w-full border p-3 duration-300 text-sm outline-none ${
+                        errors.zip && "border-red-300"
+                      }`}
+                      placeholder="ZIP"
+                      {...register("zip", {
+                        required: true,
+                        pattern: {
+                          value: /^[0-9\s()-]+$/,
+                          message: true,
+                        },
+                        minLength: 4,
+                        maxLength: 4,
+                      })}
+                    />
+                  </div>
+                </div>
+                <button className="btn w-full bg-transparent border-green-500 hover:bg-green-100 hover:border-green-100 text-green-500 mt-2">
+                  Add <FaPlus></FaPlus>
+                </button>
+              </form>
             </div>
-            <div className="grid grid-cols-1 gap-x-">
-              <div className="my-2">
-                <input
-                  type="text"
-                  className={`w-full pr-28 border p-3 duration-300 text-sm md:text-lg `}
-                  placeholder="Address Line"
-                />
-              </div>
-              <div className="my-2">
-                <input
-                  type="text"
-                  className={`w-full pr-28 border p-3 duration-300 text-sm md:text-lg `}
-                  placeholder="Address Line"
-                />
-              </div>
-              <div className="my-2">
-                <input
-                  type="text"
-                  className={`w-full pr-28 border p-3 duration-300 text-sm md:text-lg `}
-                  placeholder="Address Line"
-                />
-              </div>
-            </div>
-          </form>
+          )}
         </div>
       </div>
     </>

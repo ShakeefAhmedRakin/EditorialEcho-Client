@@ -27,7 +27,7 @@
   /* CSS */
 .scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: #888 transparent;
+  scrollbar-color: #afafaf transparent;
 }
 
 .scrollbar::-webkit-scrollbar {
