@@ -97,6 +97,7 @@ const ManageUsers = () => {
             className="select font-heading border-base-300 bg-transparent text-primary focus:outline-none w-full md:w-fit"
             onChange={(e) => {
               setFilter(e.target.value);
+              setCurrentPage(0);
             }}
           >
             <option value="">None</option>
@@ -112,6 +113,7 @@ const ManageUsers = () => {
             onChange={(e) => {
               const regex = /^[a-zA-Z\s]*$/;
               if (regex.test(e.target.value)) {
+                setCurrentPage(0);
                 setSearchName(e.target.value);
               }
             }}
