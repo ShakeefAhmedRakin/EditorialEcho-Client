@@ -344,7 +344,7 @@ const Account = () => {
                       <button
                         disabled={deleteLoading}
                         onClick={() => handleDeleteAddress(index)}
-                        className="btn border-red-500 bg-transparent hover:bg-transparent text-red-600 hover:border-red-100 hover:bg-red-200 text-xl"
+                        className="btn border-red-500 bg-transparent hover:bg-transparent text-red-600 hover:border-red-300 hover:bg-red-300 text-xl"
                       >
                         {deleteLoading ? (
                           <span className="loading loading-spinner loading-sm"></span>

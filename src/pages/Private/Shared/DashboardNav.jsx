@@ -29,34 +29,31 @@ const DashboardNav = () => {
           }`}
         ></div>
       </Link>
-
+      <Link
+        to={"/dashboard"}
+        className={`duration-300 ${
+          location.pathname === "/dashboard" && "font-semibold"
+        }`}
+      >
+        <li>Dashboard</li>
+        <div
+          className={`w-full duration-300 p-[2px] rounded-t-full ${
+            location.pathname === "/dashboard" ? "bg-primary" : "bg-gray-300"
+          }`}
+        ></div>
+      </Link>
       {userInfo?.userInfo?.role === "admin" && (
         <>
           <Link
-            to={"/dashboard"}
+            to={"/dashboard/manage-users"}
             className={`duration-300 ${
-              location.pathname === "/dashboard" && "font-semibold"
+              location.pathname === "/dashboard/manage-users" && "font-semibold"
             }`}
           >
-            <li>Dashboard</li>
+            <li>Manage Users</li>
             <div
               className={`w-full duration-300 p-[2px] rounded-t-full ${
-                location.pathname === "/dashboard"
-                  ? "bg-primary"
-                  : "bg-gray-300"
-              }`}
-            ></div>
-          </Link>
-          <Link
-            to={"/dashboard/wip"}
-            className={`duration-300 ${
-              location.pathname === "/dashboard/wip" && "font-semibold"
-            }`}
-          >
-            <li>Products</li>
-            <div
-              className={`w-full duration-300 p-[2px] rounded-t-full ${
-                location.pathname === "/dashboard/wip"
+                location.pathname === "/dashboard/manage-users"
                   ? "bg-primary"
                   : "bg-gray-300"
               }`}
@@ -128,6 +125,8 @@ const DashboardNav = () => {
             <h1 className="text-lg md:text-3xl font-bold">
               {location.pathname === "/dashboard" && "Dashboard"}
               {location.pathname === "/dashboard/account" && "Account Details"}
+              {location.pathname === "/dashboard/manage-users" &&
+                "User Management"}
             </h1>
             {/* MIDDLE RIGHT CONTENT */}
             <div className="flex items-center gap-2 py-3">

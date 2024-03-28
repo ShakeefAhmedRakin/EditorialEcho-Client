@@ -19,11 +19,9 @@ const AdminRoute = ({ children }) => {
   }
 
   return (
-    <div className="h-screen flex flex-col gap-y-2 justify-center items-center font-heading text-center px-2">
+    <div className="py-56 flex flex-col gap-y-2 justify-center items-center font-heading text-center px-2">
       <h1 className="text-red-500 font-bold text-4xl">Access Denied</h1>
-      <p className="text-lg">
-        Sorry, you do not have permission to access this page.
-      </p>
+      <p className="text-lg">You do not have permission to access this page.</p>
       <button
         onClick={() => navigate(-1)}
         className="btn bg-primary hover:bg-primary text-white max-w-sm w-full mt-4"

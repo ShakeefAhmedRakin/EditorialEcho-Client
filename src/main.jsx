@@ -7,6 +7,10 @@ import { Toaster } from "sonner";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 const queryClient = new QueryClient();
 
+// ROUTES
+import AdminRoute from "./routes/AdminRoute";
+import PrivateRoute from "./routes/PrivateRoute";
+
 // PUBLIC COMPONENTS
 import PublicRoot from "./pages/Public/PublicRoot";
 import Home from "./pages/Public/Home/Home";
@@ -19,30 +23,14 @@ import Error from "./components/Error/Error";
 
 // PRIVATE COMPONENTS
 import DashboardRoot from "./pages/Private/DashboardRoot";
-
-// ROUTES
-// import AdminRoute from "./routes/AdminRoute";
-import PrivateRoute from "./routes/PrivateRoute";
 import DashboardHome from "./pages/Private/DashboardHome/DashboardHome";
 import Account from "./pages/Private/Account/Account";
 
 // ADMIN COMPONENTS
+import ManageUsers from "./pages/Private/Admin/ManageUsers/ManageUsers";
 
 const router = createBrowserRouter([
-  {
-    path: "/register",
-    element: <Register></Register>,
-  },
-  {
-    path: "/login",
-    element: <Login></Login>,
-  },
-  {
-    path: "/forgot-password",
-    element: <ForgotPassword></ForgotPassword>,
-  },
-
-  // PUBLIC
+  // PUBLIC ROUTES
   {
     path: "/",
     element: <PublicRoot></PublicRoot>,
@@ -58,8 +46,19 @@ const router = createBrowserRouter([
       },
     ],
   },
-
-  // PRIVATE
+  {
+    path: "/register",
+    element: <Register></Register>,
+  },
+  {
+    path: "/login",
+    element: <Login></Login>,
+  },
+  {
+    path: "/forgot-password",
+    element: <ForgotPassword></ForgotPassword>,
+  },
+  // PRIVATE ROUTES
   {
     path: "/dashboard",
     element: (
@@ -68,6 +67,7 @@ const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
+      // PRIVATE ROUTES
       {
         path: "/dashboard",
         element: (
@@ -82,6 +82,15 @@ const router = createBrowserRouter([
           <PrivateRoute>
             <Account></Account>
           </PrivateRoute>
+        ),
+      },
+      // ADMIN ROUTES
+      {
+        path: "/dashboard/manage-users",
+        element: (
+          <AdminRoute>
+            <ManageUsers></ManageUsers>
+          </AdminRoute>
         ),
       },
     ],
