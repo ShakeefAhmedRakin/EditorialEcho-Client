@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "./useAxiosSecure";
 
-const useGetUsersCount = ({ filter }) => {
+const useGetUsersCount = ({ filter, searchName }) => {
   const axiosSecure = useAxiosSecure();
 
   const {
@@ -12,7 +12,7 @@ const useGetUsersCount = ({ filter }) => {
     queryKey: ["users-count"],
     queryFn: async () => {
       const res = await axiosSecure.get(
-        `/manage/get-users/count?filter=${filter}`
+        `/manage/get-users/count?filter=${filter}&search=${searchName}`
       );
       return res.data;
     },
