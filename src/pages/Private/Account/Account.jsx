@@ -34,6 +34,10 @@ const Account = () => {
   const [lastNameEdit, setLastNameEdit] = useState(false);
   const [addAddressForm, setAddAddressForm] = useState(false);
 
+  // LOADER STATES
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [addLoading, setAddLoading] = useState(false);
+
   // FETCHING INFO
   useEffect(() => {
     setEmail(userInfo?.userInfo?.email);
@@ -90,6 +94,7 @@ const Account = () => {
 
   // FUNCTION FOR ADDING ADDRESS
   const handleAddressAdd = (data) => {
+    setAddLoading(true);
     axiosSecure
       .put("/update-user-info", {
         uid: userInfo?.userInfo?.uid,
@@ -102,16 +107,22 @@ const Account = () => {
           refetch();
           reset();
           setAddAddressForm(!addAddressForm);
+          setAddLoading(false);
           return;
         } else {
           toast.error("Error Occurred");
+          setAddLoading(false);
         }
       })
-      .catch(() => toast.error("Error Occurred"));
+      .catch(() => {
+        toast.error("Error Occurred");
+        setAddLoading(false);
+      });
   };
 
   // FUNCTION FOR DELETE ADDRESS
   const handleDeleteAddress = (index) => {
+    setDeleteLoading(true);
     axiosSecure
       .put("/update-user-info", {
         uid: userInfo?.userInfo?.uid,
@@ -122,12 +133,17 @@ const Account = () => {
         if (res.data.modifiedCount > 0) {
           toast.success("Deleted address");
           refetch();
+          setDeleteLoading(false);
           return;
         } else {
           toast.error("Error Occurred");
+          setDeleteLoading(false);
         }
       })
-      .catch(() => toast.error("Error Occurred"));
+      .catch(() => {
+        toast.error("Error Occurred");
+        setDeleteLoading(false);
+      });
   };
 
   // PASSWORD RESET FUNCTION
@@ -286,7 +302,7 @@ const Account = () => {
           <div className="my-4">
             <button
               onClick={() => handleResetPassword()}
-              className="btn w-1/2 bg-transparent border-primary hover:border-red-500 hover:bg-red-500 hover:text-white"
+              className="btn w-full md:w-1/2 bg-transparent border-primary hover:border-red-500 hover:bg-red-500 hover:text-white"
             >
               Reset Password
             </button>
@@ -326,10 +342,15 @@ const Account = () => {
                     {/* DELETE BUTTON */}
                     <div className="flex justify-center">
                       <button
+                        disabled={deleteLoading}
                         onClick={() => handleDeleteAddress(index)}
-                        className="btn border-red-500 bg-transparent hover:bg-transparent text-red-600 hover:border-red-100 hover:bg-red-100 text-xl"
+                        className="btn border-red-500 bg-transparent hover:bg-transparent text-red-600 hover:border-red-100 hover:bg-red-200 text-xl"
                       >
-                        <RxCross2></RxCross2>
+                        {deleteLoading ? (
+                          <span className="loading loading-spinner loading-sm"></span>
+                        ) : (
+                          <RxCross2></RxCross2>
+                        )}
                       </button>
                     </div>
                   </div>
@@ -449,8 +470,17 @@ const Account = () => {
                     />
                   </div>
                 </div>
-                <button className="btn w-full bg-transparent border-green-500 hover:bg-green-100 hover:border-green-100 text-green-500 mt-2">
-                  Add <FaPlus></FaPlus>
+                <button
+                  disabled={addLoading}
+                  className="btn w-full bg-transparent border-green-500 hover:bg-green-100 hover:border-green-100 text-green-500 mt-2"
+                >
+                  {addLoading ? (
+                    <span className="loading loading-spinner loading-sm"></span>
+                  ) : (
+                    <>
+                      Add <FaPlus></FaPlus>
+                    </>
+                  )}
                 </button>
               </form>
             </div>
