@@ -13,7 +13,7 @@ const DashboardRoot = () => {
         data-aos-delay="0"
         data-aos-duration="800"
       >
-        <div className="shadow-md border rounded-lg p-4 md:p-8 h-full">
+        <div className="shadow-md border rounded-lg px-3 xl:px-8 pt-4 pb-2 h-full">
           <Outlet />
         </div>
       </div>
