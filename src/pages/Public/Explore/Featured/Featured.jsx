@@ -22,7 +22,7 @@ const Featured = () => {
             backgroundPosition: "center",
           }}
         >
-          <div className="relative top-[60%] bg-black bg-opacity-70 h-[40%] text-textDark p-4">
+          <div className="relative top-[60%] bg-black bg-opacity-70 h-[40%] p-4">
             {/* TITLE OF BLOG */}
             <h1 className="font-heading font-medium text-lg md:text-xl overflow-hidden whitespace-nowrap overflow-ellipsis">
               {blogs[0]?.title}
@@ -42,7 +42,7 @@ const Featured = () => {
               backgroundPosition: "center",
             }}
           >
-            <div className="relative top-[60%] bg-black bg-opacity-70 h-[40%] text-textDark p-4">
+            <div className="relative top-[60%] bg-black bg-opacity-70 h-[40%] p-4">
               {/* TITLE OF BLOG */}
               <h1 className="font-heading font-medium text-sm md:text-lg overflow-hidden whitespace-nowrap overflow-ellipsis">
                 {blogs[1]?.title}
@@ -62,7 +62,7 @@ const Featured = () => {
                 backgroundPosition: "center",
               }}
             >
-              <div className="relative top-[70%] bg-black bg-opacity-70 h-[30%] text-textDark p-4">
+              <div className="relative top-[70%] bg-black bg-opacity-70 h-[30%] p-4">
                 {/* TITLE OF BLOG */}
                 <h1 className="font-heading font-medium text-sm md:text-base overflow-hidden whitespace-nowrap overflow-ellipsis">
                   {blogs[2]?.title}
@@ -80,7 +80,7 @@ const Featured = () => {
                 backgroundPosition: "center",
               }}
             >
-              <div className="relative top-[70%] bg-black bg-opacity-70 h-[30%] text-textDark p-4">
+              <div className="relative top-[70%] bg-black bg-opacity-70 h-[30%] p-4">
                 {/* TITLE OF BLOG */}
                 <h1 className="font-heading font-medium text-sm md:text-base overflow-hidden whitespace-nowrap overflow-ellipsis">
                   {blogs[3]?.title}

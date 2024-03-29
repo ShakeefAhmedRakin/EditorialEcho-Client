@@ -28,6 +28,7 @@ import Account from "./pages/Private/Account/Account";
 
 // ADMIN COMPONENTS
 import ManageUsers from "./pages/Private/Admin/ManageUsers/ManageUsers";
+import ManageProducts from "./pages/Private/Admin/ManageProducts/ManageProducts";
 
 const router = createBrowserRouter([
   // PUBLIC ROUTES
@@ -90,6 +91,14 @@ const router = createBrowserRouter([
         element: (
           <AdminRoute>
             <ManageUsers></ManageUsers>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "/dashboard/manage-products",
+        element: (
+          <AdminRoute>
+            <ManageProducts></ManageProducts>
           </AdminRoute>
         ),
       },

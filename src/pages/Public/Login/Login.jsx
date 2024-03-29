@@ -133,7 +133,7 @@ const Login = () => {
         data-aos-duration="800"
       >
         {/* LOGIN FORM */}
-        <div className="bg-background dark:bg-backgroundDark py-12 px-8 font-heading flex-1 max-w-2xl">
+        <div className="bg-background py-12 px-8 font-heading flex-1 max-w-2xl">
           <div className="flex justify-between flex-col lg:flex-row items-center">
             <h1 className="font-heading font-semibold text-4xl">
               Street<span className="font-normal">Wise</span>

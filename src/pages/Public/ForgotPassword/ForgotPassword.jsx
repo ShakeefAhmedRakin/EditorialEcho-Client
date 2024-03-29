@@ -41,7 +41,7 @@ const ForgotPassword = () => {
     <>
       <div className="h-screen flex justify-center items-center relative overflow-y-hidden">
         <div
-          className="bg-background dark:bg-backgroundDark py-12 px-8 font-heading flex-1 max-w-2xl"
+          className="bg-background py-12 px-8 font-heading flex-1 max-w-2xl"
           data-aos="fade-up"
           data-aos-delay="0"
           data-aos-duration="800"

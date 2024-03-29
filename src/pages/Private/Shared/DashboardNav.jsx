@@ -15,21 +15,6 @@ const DashboardNav = () => {
   const links = (
     <>
       <Link
-        to={"/dashboard/account"}
-        className={`duration-300 ${
-          location.pathname === "/dashboard/account" && "font-semibold"
-        }`}
-      >
-        <li>My Account</li>
-        <div
-          className={`w-full duration-300 p-[2px] rounded-t-full ${
-            location.pathname === "/dashboard/account"
-              ? "bg-primary"
-              : "bg-gray-300"
-          }`}
-        ></div>
-      </Link>
-      <Link
         to={"/dashboard"}
         className={`duration-300 ${
           location.pathname === "/dashboard" && "font-semibold"
@@ -60,15 +45,16 @@ const DashboardNav = () => {
             ></div>
           </Link>
           <Link
-            to={"/dashboard/wip"}
+            to={"/dashboard/manage-products"}
             className={`duration-300 ${
-              location.pathname === "/dashboard/wip" && "font-semibold"
+              location.pathname === "/dashboard/manage-products" &&
+              "font-semibold"
             }`}
           >
-            <li>Orders</li>
+            <li>Manage Products</li>
             <div
               className={`w-full duration-300 p-[2px] rounded-t-full ${
-                location.pathname === "/dashboard/wip"
+                location.pathname === "/dashboard/manage-products"
                   ? "bg-primary"
                   : "bg-gray-300"
               }`}
@@ -127,6 +113,8 @@ const DashboardNav = () => {
               {location.pathname === "/dashboard/account" && "Account Details"}
               {location.pathname === "/dashboard/manage-users" &&
                 "User Management"}
+              {location.pathname === "/dashboard/manage-products" &&
+                "Product Management"}
             </h1>
             {/* MIDDLE RIGHT CONTENT */}
             <div className="flex items-center gap-2 py-3">
@@ -152,16 +140,22 @@ const DashboardNav = () => {
                 </div>
                 <ul
                   tabIndex={0}
-                  className="dropdown-content mt-3 z-50 p-1 shadow space-y-3 bg-base-100 w-44 text-black font-heading"
+                  className="dropdown-content mt-3 z-50 p-2 shadow-xl space-y-1 bg-base-100 w-44 text-black font-heading rounded-lg"
                 >
                   <button
-                    onClick={() => handleLogOut()}
-                    className="bg-red-500 text-white shadow-none border-none hover:bg-red-700 p-2 rounded-lg duration-300 btn w-full justify-start"
+                    onClick={() => navigate("/dashboard/account")}
+                    className="bg-transparent text-primary shadow-none border-none hover:bg-transparent rounded-lg duration-300 btn w-full justify-between"
                   >
-                    <a className="text-xl font-medium flex items-center">
-                      <CiLogout className="text-2xl mr-3"></CiLogout>{" "}
-                      <span className="flex-1">Logout</span>
-                    </a>
+                    <IoPersonOutline className="text-2xl w-8"></IoPersonOutline>
+                    <h1 className="font-medium text-center flex-1">Account</h1>
+                  </button>
+                  <hr />
+                  <button
+                    onClick={() => handleLogOut()}
+                    className="bg-transparent text-red-500 shadow-none border-none hover:bg-transparent rounded-lg duration-300 btn w-full justify-between"
+                  >
+                    <CiLogout className="text-2xl w-8"></CiLogout>
+                    <h1 className="font-medium text-center flex-1">LogOut</h1>
                   </button>
                 </ul>
               </div>
