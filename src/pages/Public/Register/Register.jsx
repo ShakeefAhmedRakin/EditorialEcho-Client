@@ -11,6 +11,7 @@ const Register = () => {
   // LOADING STATES
   const [creatingUser, setCreatingUser] = useState(false);
   const [seePassword, setSeePassword] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
 
   // AXIOS
   const axiosPublic = useAxiosPublic();
@@ -70,8 +71,10 @@ const Register = () => {
 
   // GOOGLE SIGN IN FUNCTION
   const handleGoogleSignIn = () => {
+    setGoogleLoading(true);
     signInWithGoogle()
       .then((res) => {
+        console.log(res);
         // AFTER FIREBASE CREATION
         const user = res.user;
         const userInfo = {
@@ -100,25 +103,35 @@ const Register = () => {
                 uid: user.uid,
                 time: user.metadata.lastSignInTime,
               })
-              .then(() => {
-                toast.success("Signed In Successfully. Redirecting..");
-                setTimeout(() => {
-                  navigate("/");
-                }, 1000);
+              .then((res) => {
+                if (res.data.matchedCount > 0) {
+                  toast.success("Logged In Successfully. Redirecting..");
+                  setGoogleLoading(false);
+                  reset();
+                  setTimeout(() => {
+                    navigate("/");
+                  }, 1000);
+                } else {
+                  toast.error("Error occurred during login.");
+                }
               });
+            setGoogleLoading(false);
             return;
           }
           toast.error("Error occurred during login");
+          setGoogleLoading(false);
         });
       })
       .catch((err) => {
+        setGoogleLoading(false);
+        console.log(err);
         toast.error(err.message);
       });
   };
 
   return (
     <>
-      <div className="h-screen flex relative overflow-y-hidden">
+      <div className="min-h-screen flex relative overflow-y-hidden">
         <div
           className="flex-1 flex items-center justify-center"
           data-aos="fade-up"
@@ -132,6 +145,7 @@ const Register = () => {
                 Street<span className="font-normal">Wise</span>
               </h1>
               <button
+                disabled={googleLoading}
                 onClick={() => handleGoogleSignIn()}
                 className="btn border border-gray-700 rounded-none hover:border-primary bg-transparent hover:bg-base-200 hidden lg:flex"
               >
@@ -145,7 +159,7 @@ const Register = () => {
             </h1>
             <form onSubmit={handleSubmit(onSubmit)}>
               {/* Full Name */}
-              <div className="grid grid-cols-2 gap-x-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
                 {/* FIRST NAME */}
                 <div className="mb-6">
                   <div className="flex items-center gap-1 mb-2">
@@ -293,7 +307,10 @@ const Register = () => {
                 Log in here
               </Link>
             </h1>
-            <button className="btn border border-gray-700 rounded-none hover:border-primary bg-transparent hover:bg-base-200 lg:hidden w-full mt-8">
+            <button
+              disabled={googleLoading}
+              className="btn border border-gray-700 rounded-none hover:border-primary bg-transparent hover:bg-base-200 lg:hidden w-full mt-8"
+            >
               <FaGoogle className="text-lg text-gray-70"></FaGoogle>Sign In With
               Google
             </button>

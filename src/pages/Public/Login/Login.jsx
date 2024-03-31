@@ -11,6 +11,7 @@ const Login = () => {
   // LOADING STATES
   const [loading, setLoading] = useState(false);
   const [seePassword, setSeePassword] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
 
   // REDIRECT FUNCTIONS
   const navigate = useNavigate();
@@ -44,7 +45,7 @@ const Login = () => {
             time: res.user.metadata.lastSignInTime,
           })
           .then((res) => {
-            if (res.data.modifiedCount > 0) {
+            if (res.data.matchedCount > 0) {
               toast.success("Logged In Successfully. Redirecting..");
               setLoading(false);
               reset();
@@ -78,8 +79,10 @@ const Login = () => {
 
   // GOOGLE SIGN IN FUNCTION
   const handleGoogleSignIn = () => {
+    setGoogleLoading(true);
     signInWithGoogle()
       .then((res) => {
+        console.log(res);
         // AFTER FIREBASE CREATION
         const user = res.user;
         const userInfo = {
@@ -108,18 +111,27 @@ const Login = () => {
                 uid: user.uid,
                 time: user.metadata.lastSignInTime,
               })
-              .then(() => {
-                toast.success("Signed In Successfully. Redirecting..");
-                setTimeout(() => {
-                  navigate(from);
-                }, 1000);
+              .then((res) => {
+                if (res.data.matchedCount > 0) {
+                  toast.success("Logged In Successfully. Redirecting..");
+                  setGoogleLoading(false);
+                  setTimeout(() => {
+                    navigate(from);
+                  }, 1000);
+                } else {
+                  toast.error("Error occurred during login.");
+                }
               });
+            setGoogleLoading(false);
             return;
           }
           toast.error("Error occurred during login");
+          setGoogleLoading(false);
         });
       })
       .catch((err) => {
+        setGoogleLoading(false);
+        console.log(err);
         toast.error(err.message);
       });
   };
@@ -139,8 +151,9 @@ const Login = () => {
               Street<span className="font-normal">Wise</span>
             </h1>
             <button
+              disabled={googleLoading}
               onClick={() => handleGoogleSignIn()}
-              className="btn border border-gray-700 rounded-none hover:border-primary bg-transparent hover:bg-base-200 hidden lg:flex"
+              className="btn border border-gray-700 rounded-none hover:border-primary bg-transparent hover:bg-base-200 hidden lg:flex w-[200px]"
             >
               <FaGoogle className="text-lg text-gray-70"></FaGoogle>Sign In With
               Google
@@ -233,7 +246,10 @@ const Login = () => {
               </>
             ) : (
               <>
-                <button className="btn w-full rounded-none bg-primary hover:bg-primary text-white font-bold border-none hover:scale-[1.01] duration-300">
+                <button
+                  disabled={loading}
+                  className="btn w-full rounded-none bg-primary hover:bg-primary text-white font-bold border-none hover:scale-[1.01] duration-300"
+                >
                   {loading ? (
                     <>
                       <span className="loading loading-spinner loading-md"></span>
@@ -260,7 +276,10 @@ const Login = () => {
               Register Here
             </Link>
           </h1>
-          <button className="btn border border-gray-700 rounded-none hover:border-primary bg-transparent hover:bg-base-200 lg:hidden w-full mt-8">
+          <button
+            disabled={googleLoading}
+            className="btn border border-gray-700 rounded-none hover:border-primary bg-transparent hover:bg-base-200 lg:hidden w-full mt-8"
+          >
             <FaGoogle className="text-lg text-gray-70"></FaGoogle>Sign In With
             Google
           </button>
