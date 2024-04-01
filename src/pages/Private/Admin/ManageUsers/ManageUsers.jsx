@@ -91,7 +91,7 @@ const ManageUsers = () => {
   };
 
   return (
-    <>
+    <div data-aos="fade-up" data-aos-delay="0" data-aos-duration="500">
       {/* PAGINATION CONTROLS */}
       <div className="flex flex-col md:flex-row gap-2">
         {/* FILTER */}
@@ -185,12 +185,12 @@ const ManageUsers = () => {
       <hr className="my-2" />
 
       {/* TABLET TO LARGE DEVICES */}
-      <div className="h-[470px] xl:h-[570px] overflow-y-auto hidden md:block">
+      <div className="h-[564px] xl:h-[670px] overflow-y-auto hidden md:block">
         <table className="w-full">
           <tbody className="w-full">
             {countLoading || usersLoading || isRefetchingUsers ? (
               <>
-                {[...Array(5)].map((_, index) => (
+                {[...Array(6)].map((_, index) => (
                   <tr
                     key={index}
                     className="grid grid-cols-6 gap-2 p-4 odd:bg-base-100"
@@ -315,25 +315,6 @@ const ManageUsers = () => {
                     </td>
                   </tr>
                 ))}
-                {5 - users.length >= 0 && (
-                  <>
-                    {[...Array(5 - users.length)].map((_, index) => (
-                      <tr
-                        key={index}
-                        className="grid grid-cols-6 gap-2 p-4 odd:bg-base-100"
-                      >
-                        {/* NAME AND UID */}
-                        <td className="col-span-2 bg-transparent h-[62px] xl:h-[82px] rounded-lg"></td>
-                        {/* ADDRESS */}
-                        <td className="bg-transparent h-[62px] xl:h-[82px] rounded-lg"></td>
-                        {/* STATISTICS */}
-                        <td className="col-span-2 bg-transparent h-[62px] xl:h-[82px] rounded-lg"></td>
-                        {/* ACTIONS */}
-                        <td className="bg-transparent h-[62px] xl:h-[82px] rounded-lg"></td>
-                      </tr>
-                    ))}
-                  </>
-                )}
               </>
             )}
           </tbody>
@@ -482,7 +463,7 @@ const ManageUsers = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

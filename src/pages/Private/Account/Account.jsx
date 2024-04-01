@@ -50,7 +50,11 @@ const Account = () => {
   const handleUpdateInfo = async (type) => {
     if (type === "first") {
       const trimmedFirstName = firstName.trim();
-      if (trimmedFirstName && /^[a-zA-Z\s]+$/.test(trimmedFirstName)) {
+      if (
+        trimmedFirstName &&
+        /^[a-zA-Z\s]+$/.test(trimmedFirstName) &&
+        trimmedFirstName !== userInfo?.userInfo?.firstName
+      ) {
         // UPDATING
         axiosSecure
           .put("/update-user-info", {
@@ -71,7 +75,11 @@ const Account = () => {
     }
     if (type === "last") {
       const trimmedLastName = lastName.trim();
-      if (trimmedLastName && /^[a-zA-Z\s]+$/.test(trimmedLastName)) {
+      if (
+        trimmedLastName &&
+        /^[a-zA-Z\s]+$/.test(trimmedLastName) &&
+        trimmedLastName !== userInfo?.userInfo?.lastName
+      ) {
         // UPDATING
         axiosSecure
           .put("/update-user-info", {
@@ -160,7 +168,12 @@ const Account = () => {
   return (
     <>
       {/* INFORMATION */}
-      <div className="flex flex-col md:flex-row">
+      <div
+        className="flex flex-col h-full md:flex-row"
+        // data-aos="fade-up"
+        // data-aos-delay="0"
+        // data-aos-duration="500"
+      >
         {/* PROFILE INFO */}
         <div className="flex-1">
           {/* TITLE */}

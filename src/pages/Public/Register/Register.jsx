@@ -33,6 +33,9 @@ const Register = () => {
   // REGISTER FUNCTION
   const onSubmit = (data) => {
     setCreatingUser(true);
+    data.firstName = data.firstName.trim();
+    data.lastName = data.lastName.trim();
+    data.Email = data.Email.trim();
     createUser(data.Email, data.Password)
       .then((res) => {
         // AFTER FIREBASE CREATION
@@ -131,7 +134,7 @@ const Register = () => {
 
   return (
     <>
-      <div className="min-h-screen flex relative overflow-y-hidden">
+      <div className="bg-background min-h-screen flex relative overflow-y-hidden">
         <div
           className="flex-1 flex items-center justify-center"
           data-aos="fade-up"
@@ -139,7 +142,7 @@ const Register = () => {
           data-aos-duration="800"
         >
           {/* REGISTER FORM */}
-          <div className="bg-background py-12 px-8 font-heading flex-1 max-w-2xl">
+          <div className="py-12 px-8 font-heading flex-1 max-w-2xl">
             <div className="flex justify-between flex-col lg:flex-row items-center">
               <h1 className="font-heading font-semibold text-4xl">
                 Street<span className="font-normal">Wise</span>

@@ -37,6 +37,7 @@ const Login = () => {
   // LOGIN FUNCTION
   const onSubmit = (data) => {
     setLoading(true);
+
     signInUser(data.Email, data.Password)
       .then((res) => {
         axiosPublic
@@ -137,7 +138,7 @@ const Login = () => {
   };
 
   return (
-    <div className="h-screen flex flex-row-reverse relative overflow-y-hidden">
+    <div className="h-screen bg-background flex flex-row-reverse relative overflow-y-hidden">
       <div
         className="flex-1 flex items-center justify-center"
         data-aos="fade-up"
@@ -145,7 +146,7 @@ const Login = () => {
         data-aos-duration="800"
       >
         {/* LOGIN FORM */}
-        <div className="bg-background py-12 px-8 font-heading flex-1 max-w-2xl">
+        <div className="py-12 px-8 font-heading flex-1 max-w-2xl">
           <div className="flex justify-between flex-col lg:flex-row items-center">
             <h1 className="font-heading font-semibold text-4xl">
               Street<span className="font-normal">Wise</span>

@@ -1,7 +1,12 @@
 const DashboardHome = () => {
   return (
-    <div>
-      <h1 className="">DashboardHome</h1>
+    <div data-aos="fade-up" data-aos-delay="0" data-aos-duration="500">
+      <div
+        className="h-full"
+        data-aos="fade-up"
+        data-aos-delay="0"
+        data-aos-duration="500"
+      ></div>
     </div>
   );
 };
