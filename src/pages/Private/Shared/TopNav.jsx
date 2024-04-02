@@ -48,6 +48,7 @@ const TopNav = ({ userInfo, logOut }) => {
               {location === "/dashboard/account" && "Account Details"}
               {location === "/dashboard/manage-users" && "Manage Users"}
               {location === "/dashboard/manage-products" && "Manage Products"}
+              {location === "/dashboard/add-product" && "Add New Product"}
             </h1>
           </div>
           <div className="flex items-center gap-2">

@@ -29,6 +29,7 @@ import Account from "./pages/Private/Account/Account";
 // ADMIN COMPONENTS
 import ManageUsers from "./pages/Private/Admin/ManageUsers/ManageUsers";
 import ManageProducts from "./pages/Private/Admin/ManageProducts/ManageProducts";
+import AddProduct from "./pages/Private/Admin/AddProduct/AddProduct";
 
 const router = createBrowserRouter([
   // PUBLIC ROUTES
@@ -99,6 +100,14 @@ const router = createBrowserRouter([
         element: (
           <AdminRoute>
             <ManageProducts></ManageProducts>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "/dashboard/add-product",
+        element: (
+          <AdminRoute>
+            <AddProduct></AddProduct>
           </AdminRoute>
         ),
       },

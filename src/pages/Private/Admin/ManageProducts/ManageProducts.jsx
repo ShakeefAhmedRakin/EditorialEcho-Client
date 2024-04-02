@@ -1,5 +1,5 @@
 const ManageProducts = () => {
-  return <div></div>;
+  return <div className="min-h-full h-full">{/*  */}</div>;
 };
 
 export default ManageProducts;

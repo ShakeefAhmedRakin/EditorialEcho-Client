@@ -129,7 +129,7 @@ const DashboardRoot = () => {
             <div
               data-aos="fade-right"
               data-aos-duration="600"
-              className="flex flex-col min-h-screen h-full p-4 bg-primary text-xl font-semibold"
+              className="flex flex-col min-h-screen h-full p-4 bg-gradient-to-br from-primary to-[#2c2c2c] text-xl font-semibold"
             >
               {/* TOP PART */}
               <div>
