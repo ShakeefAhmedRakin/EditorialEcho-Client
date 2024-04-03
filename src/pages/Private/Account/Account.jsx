@@ -110,7 +110,8 @@ const Account = () => {
         data: data,
       })
       .then((res) => {
-        if (res.data.modifiedCount > 0) {
+        console.log(res);
+        if (res.data._id) {
           toast.success("Added address");
           refetch();
           reset();
@@ -138,7 +139,7 @@ const Account = () => {
         index: index,
       })
       .then((res) => {
-        if (res.data.modifiedCount > 0) {
+        if (res.status === 200) {
           toast.success("Deleted address");
           refetch();
           setDeleteLoading(false);

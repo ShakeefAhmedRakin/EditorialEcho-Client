@@ -136,10 +136,11 @@ const AddProduct = () => {
       discount,
       imageURLs: imgBBUrls,
       featured,
+      draft: false,
     };
 
     axiosSecure.post("/manage/add-product", { data }).then((res) => {
-      if (res.data.insertedId) {
+      if (res.data._id) {
         toast.success("Product Added!");
         setName("");
         setContent("");
@@ -161,7 +162,12 @@ const AddProduct = () => {
   };
 
   return (
-    <div className="min-h-full h-full">
+    <div
+      className="min-h-full h-full"
+      data-aos="fade-up"
+      data-aos-delay="0"
+      data-aos-duration="500"
+    >
       {/* ADD PRODUCT FORM */}
       <div className="flex gap-4 flex-col xl:flex-row">
         {/* PRODUCT INFO */}

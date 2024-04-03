@@ -45,16 +45,10 @@ const Register = () => {
           email: user.email,
           firstName: data.firstName,
           lastName: data.lastName,
-          role: "customer",
-          address: [],
-          orders: [],
-          phone: "",
-          creationTime: user.metadata.creationTime,
-          lastSignInTime: user.metadata.lastSignInTime,
         };
 
         axiosPublic.post("/create-user", userInfo).then((res) => {
-          if (res.data.insertedId) {
+          if (res.data._id) {
             toast.success("Signed Up Successfully. Redirecting..");
             setCreatingUser(false);
             reset();
@@ -77,57 +71,56 @@ const Register = () => {
     setGoogleLoading(true);
     signInWithGoogle()
       .then((res) => {
-        console.log(res);
         // AFTER FIREBASE CREATION
         const user = res.user;
         const userInfo = {
           uid: user.uid,
           email: user.email,
-          firstName: "",
-          lastName: "",
-          role: "customer",
-          address: [],
-          orders: [],
-          phone: "",
-          creationTime: user.metadata.creationTime,
-          lastSignInTime: user.metadata.lastSignInTime,
         };
-        axiosPublic.post("/create-user", userInfo).then((res) => {
-          if (res.data.insertedId) {
-            toast.success("Signed In Successfully. Redirecting..");
-            setTimeout(() => {
-              navigate("/");
-            }, 1000);
-            return;
-          }
-          if (res.data.prevUser) {
-            axiosPublic
-              .put("/update-last-logged", {
-                uid: user.uid,
-                time: user.metadata.lastSignInTime,
-              })
-              .then((res) => {
-                if (res.data.matchedCount > 0) {
-                  toast.success("Logged In Successfully. Redirecting..");
-                  setGoogleLoading(false);
-                  reset();
-                  setTimeout(() => {
-                    navigate("/");
-                  }, 1000);
-                } else {
+        axiosPublic
+          .post("/create-user", userInfo)
+          .then((res) => {
+            if (res.data.prevUser) {
+              axiosPublic
+                .put("/update-last-logged", {
+                  uid: user.uid,
+                })
+                .then((res) => {
+                  if (res.data.matchedCount > 0) {
+                    toast.success("Logged In Successfully. Redirecting..");
+                    setGoogleLoading(false);
+                    setTimeout(() => {
+                      navigate(from);
+                    }, 1000);
+                  } else {
+                    toast.error("Error occurred during login.");
+                  }
+                })
+                .catch((error) => {
+                  console.error("Error updating last logged:", error);
                   toast.error("Error occurred during login.");
-                }
-              });
+                });
+              setGoogleLoading(false);
+              return;
+            }
+            if (res.data._id) {
+              toast.success("Signed In Successfully. Redirecting..");
+              setTimeout(() => {
+                navigate(from);
+              }, 1000);
+              return;
+            }
             setGoogleLoading(false);
-            return;
-          }
-          toast.error("Error occurred during login");
-          setGoogleLoading(false);
-        });
+          })
+          .catch((error) => {
+            console.error("Error creating user:", error);
+            toast.error("Error occurred during login.");
+            setGoogleLoading(false);
+          });
       })
       .catch((err) => {
         setGoogleLoading(false);
-        console.log(err);
+        console.error(err);
         toast.error(err.message);
       });
   };

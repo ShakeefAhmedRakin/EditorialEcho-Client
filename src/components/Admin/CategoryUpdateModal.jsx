@@ -2,6 +2,7 @@ import { useState } from "react";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useGetCategories from "../../hooks/useGetCategories";
 import { MdDelete } from "react-icons/md";
+import { toast } from "sonner";
 
 const CategoryUpdateModal = () => {
   const [addInfo, setaddInfo] = useState("");
@@ -35,8 +36,9 @@ const CategoryUpdateModal = () => {
   // HANDLE CATEGORY DELETE
   const handleDeleteCategory = async (id) => {
     axiosSecure.delete(`/manage/delete-category/${id}`).then((res) => {
-      if (res.data.deletedCount > 0) {
+      if (res.status === 200) {
         refetchCategories();
+        toast.success("Deleted!");
       }
     });
   };
