@@ -1,7 +1,27 @@
 import { IoMdArrowDropdown } from "react-icons/io";
 import useUserInfo from "../../hooks/useUserInfo";
+import PropTypes from "prop-types";
 
-const UserTableRow = ({ user, refetchUsers, handleChangeRole }) => {
+function formatTimestamp(timestamp) {
+  const date = new Date(timestamp);
+
+  const year = date.getUTCFullYear();
+  const month = date.getUTCMonth() + 1;
+  const day = date.getUTCDate();
+  const hours = date.getUTCHours();
+  const minutes = date.getUTCMinutes();
+  const seconds = date.getUTCSeconds();
+
+  const formattedDate = `${year}-${month < 10 ? "0" + month : month}-${
+    day < 10 ? "0" + day : day
+  } ${hours < 10 ? "0" + hours : hours}:${
+    minutes < 10 ? "0" + minutes : minutes
+  }:${seconds < 10 ? "0" + seconds : seconds}`;
+
+  return formattedDate;
+}
+
+const UserTableRow = ({ user, handleChangeRole }) => {
   const { userInfo } = useUserInfo();
 
   return (
@@ -63,12 +83,16 @@ const UserTableRow = ({ user, refetchUsers, handleChangeRole }) => {
       {/* STATISTICS */}
       <td className="col-span-2 text-[10px] whitespace-nowrap xl:text-sm text-gray-500 font-normal">
         <h1>
-          <span className="font-semibold">Account Created</span>
-          <br></br> {user.creationTime}
+          <span className="font-semibold flex items-center gap-x-1">
+            Account Created <span className="text-[9px]">(UTC)</span>
+          </span>
+          {formatTimestamp(user.creationTime)}
         </h1>
         <h1>
-          <span className="font-semibold">Last Log In</span>
-          <br></br> {user.lastSignInTime}
+          <span className="font-semibold flex items-center gap-x-1">
+            Last Log In <span className="text-[9px]">(UTC)</span>
+          </span>
+          {formatTimestamp(user.lastSignInTime)}
         </h1>
       </td>
       {/* ACTIONS */}
@@ -106,6 +130,11 @@ const UserTableRow = ({ user, refetchUsers, handleChangeRole }) => {
       </td>
     </tr>
   );
+};
+
+UserTableRow.propTypes = {
+  user: PropTypes.object,
+  handleChangeRole: PropTypes.func,
 };
 
 export default UserTableRow;

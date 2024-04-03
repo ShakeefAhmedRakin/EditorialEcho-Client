@@ -1,7 +1,27 @@
 import { IoMdArrowDropdown } from "react-icons/io";
 import useUserInfo from "../../hooks/useUserInfo";
+import PropTypes from "prop-types";
 
-const UserTableCardMobile = ({ user, refetchUsers, handleChangeRole }) => {
+function formatTimestamp(timestamp) {
+  const date = new Date(timestamp);
+
+  const year = date.getUTCFullYear();
+  const month = date.getUTCMonth() + 1;
+  const day = date.getUTCDate();
+  const hours = date.getUTCHours();
+  const minutes = date.getUTCMinutes();
+  const seconds = date.getUTCSeconds();
+
+  const formattedDate = `${year}-${month < 10 ? "0" + month : month}-${
+    day < 10 ? "0" + day : day
+  } ${hours < 10 ? "0" + hours : hours}:${
+    minutes < 10 ? "0" + minutes : minutes
+  }:${seconds < 10 ? "0" + seconds : seconds}`;
+
+  return formattedDate;
+}
+
+const UserTableCardMobile = ({ user, handleChangeRole }) => {
   const { userInfo } = useUserInfo();
 
   return (
@@ -25,8 +45,8 @@ const UserTableCardMobile = ({ user, refetchUsers, handleChangeRole }) => {
       <hr className="my-1" />
       {/* STATISTICS */}
       <div className="text-[9px]">
-        <h1>Created: {user.creationTime}</h1>
-        <h1>Last Log In: {user.lastSignInTime}</h1>
+        <h1>Created: {formatTimestamp(user.creationTime)}</h1>
+        <h1>Last Log In: {formatTimestamp(user.lastSignInTime)}</h1>
       </div>
       <hr className="my-1" />
       {/* ADDRESS / ROLE */}
@@ -94,6 +114,11 @@ const UserTableCardMobile = ({ user, refetchUsers, handleChangeRole }) => {
       </div>
     </div>
   );
+};
+
+UserTableCardMobile.propTypes = {
+  user: PropTypes.object,
+  handleChangeRole: PropTypes.func,
 };
 
 export default UserTableCardMobile;

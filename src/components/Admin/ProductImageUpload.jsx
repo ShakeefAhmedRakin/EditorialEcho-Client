@@ -1,5 +1,5 @@
 import ImageUploading from "react-images-uploading";
-
+import PropTypes from "prop-types";
 import { MdDelete } from "react-icons/md";
 import { FaCamera } from "react-icons/fa";
 import { FaUpload } from "react-icons/fa";
@@ -7,7 +7,7 @@ import { FaUpload } from "react-icons/fa";
 const ProductImageUpload = ({ imageURLs, setImageURls }) => {
   const maxNumber = 4;
 
-  const onChange = (imageList, addUpdateIndex) => {
+  const onChange = (imageList) => {
     setImageURls(imageList);
   };
 
@@ -82,6 +82,11 @@ const ProductImageUpload = ({ imageURLs, setImageURls }) => {
       </ImageUploading>
     </div>
   );
+};
+
+ProductImageUpload.propTypes = {
+  imageURLs: PropTypes.array,
+  setImageURls: PropTypes.func,
 };
 
 export default ProductImageUpload;

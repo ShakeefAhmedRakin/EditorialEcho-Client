@@ -21,6 +21,7 @@ const AddProduct = () => {
 
   // LOADING STATE
   const [addingProductLoading, setAddingProductLoading] = useState(false);
+  const [saveDraftLoading, setSaveDraftLoading] = useState(false);
 
   // PRODUCT NAME STATE
   const [name, setName] = useState("");
@@ -157,6 +158,51 @@ const AddProduct = () => {
       } else {
         toast.error("Error Occurred");
         setAddingProductLoading(false);
+      }
+    });
+  };
+
+  //   HANDLE ADD PRODUCT
+  const handleAddDraft = async () => {
+    setSaveDraftLoading(true);
+    let imgBBUrls = [];
+    if (imageURLs.length > 0) {
+      imgBBUrls = await uploadImagesToImgBB(imageURLs);
+    }
+
+    const data = {
+      name: name.trim(),
+      description: content,
+      sizes,
+      gender,
+      color: color.trim(),
+      price,
+      category,
+      stock,
+      discount,
+      imageURLs: imgBBUrls,
+      featured,
+      draft: true,
+    };
+
+    axiosSecure.post("/manage/add-product", { data }).then((res) => {
+      if (res.data._id) {
+        toast.success("Product Added!");
+        setName("");
+        setContent("");
+        setSizes([]);
+        setGender("");
+        setPrice("0");
+        setStock(0);
+        setDiscount(0);
+        setCategory("");
+        setImageURls([]);
+        setColor("");
+        setFeatured(false);
+        setSaveDraftLoading(false);
+      } else {
+        toast.error("Error Occurred");
+        setSaveDraftLoading(false);
       }
     });
   };
@@ -458,8 +504,20 @@ const AddProduct = () => {
       {/* BOTTOM SECTION */}
       <div className="gap-3 max-w-lg mx-auto flex mt-4">
         {/* SAVE DRAFT BUTTON */}
-        <button className="btn flex-1 bg-transparent rounded-full border-primary hover:border-primary hover:bg-primary hover:text-white flex-nowrap whitespace-nowrap">
-          <RiDraftLine className="text-lg"></RiDraftLine>Save Draft
+        <button
+          onClick={() => handleAddDraft()}
+          disabled={saveDraftLoading}
+          className="btn flex-1 bg-transparent rounded-full border-primary hover:border-primary hover:bg-primary hover:text-white flex-nowrap whitespace-nowrap"
+        >
+          {saveDraftLoading ? (
+            <>
+              <span className="loading loading-spinner loading-md"></span>
+            </>
+          ) : (
+            <>
+              <RiDraftLine className="text-lg"></RiDraftLine>Save Draft
+            </>
+          )}
         </button>
         {/* ADD PRODUCT BUTTON */}
         <button

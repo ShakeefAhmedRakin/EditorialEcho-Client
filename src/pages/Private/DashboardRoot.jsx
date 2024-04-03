@@ -10,6 +10,7 @@ import { LuShirt } from "react-icons/lu";
 import { BsCart2 } from "react-icons/bs";
 import { SlLogout } from "react-icons/sl";
 import { MdOutlineManageAccounts } from "react-icons/md";
+import { IoMdAdd } from "react-icons/io";
 const DashboardRoot = () => {
   const { userInfo } = useUserInfo();
   const { logOut } = useAuth();
@@ -31,7 +32,7 @@ const DashboardRoot = () => {
       <Link to={"/dashboard"}>
         <li
           onClick={closeSidebar}
-          className={`duration-300 border-2 border-transparent w-[95%] p-4 rounded-full gap-2 flex items-center ${
+          className={`duration-300 border-2 border-transparent w-[95%] py-2 px-4 rounded-full gap-2 flex items-center ${
             location.pathname === "/dashboard"
               ? "text-primary bg-background"
               : "text-white hover:border-background"
@@ -40,11 +41,11 @@ const DashboardRoot = () => {
           <TbLayoutDashboard className="text-2xl"></TbLayoutDashboard>Dashboard
         </li>
       </Link>
-      <hr className="border-none my-0.5" />
+      <hr className="border-none my-1" />
       <Link to={"/dashboard/account"}>
         <li
           onClick={closeSidebar}
-          className={`duration-300 border-2 border-transparent w-[95%] p-4 rounded-full gap-2 flex items-center ${
+          className={`duration-300 border-2 border-transparent w-[95%] py-2 px-4 rounded-full gap-2 flex items-center ${
             location.pathname === "/dashboard/account"
               ? "text-primary bg-background"
               : "text-white hover:border-background"
@@ -54,50 +55,77 @@ const DashboardRoot = () => {
           Account
         </li>
       </Link>
-      <hr className="border-none my-0.5" />
+      <hr className="border-none my-1" />
       {userInfo?.userInfo?.role === "admin" && (
         <>
-          <Link to={"/dashboard/manage-users"}>
-            <li
-              onClick={closeSidebar}
-              className={`duration-300 border-2 border-transparent w-[95%] p-4 rounded-full gap-2 flex items-center ${
-                location.pathname === "/dashboard/manage-users"
-                  ? "text-primary bg-background"
-                  : "text-white hover:border-background"
-              }`}
-            >
-              <PiUsersFour className="text-2xl"></PiUsersFour>
-              Users
-            </li>
-          </Link>
-          <hr className="border-none my-0.5" />
-          <Link to={"/dashboard/manage-products"}>
-            <li
-              onClick={closeSidebar}
-              className={`duration-300 border-2 border-transparent w-[95%] p-4 rounded-full gap-2 flex items-center ${
-                location.pathname === "/dashboard/manage-products"
-                  ? "text-primary bg-background"
-                  : "text-white hover:border-background"
-              }`}
-            >
-              <LuShirt className="text-2xl"></LuShirt>
-              Products
-            </li>
-          </Link>
-          <hr className="border-none my-0.5" />
-          <Link to={"/dashboard/manage-orders"}>
-            <li
-              onClick={closeSidebar}
-              className={`duration-300 border-2 border-transparent w-[95%] p-4 rounded-full gap-2 flex items-center ${
-                location.pathname === "/dashboard/manage-orders"
-                  ? "text-primary bg-background"
-                  : "text-white hover:border-background"
-              }`}
-            >
-              <BsCart2 className="text-2xl"></BsCart2>
-              Orders
-            </li>
-          </Link>
+          {/* USER MANAGEMENT */}
+          <div className="">
+            <hr className="border-1 border-gray-600 mb-2" />
+            <Link to={"/dashboard/manage-users"}>
+              <li
+                onClick={closeSidebar}
+                className={`duration-300 border-2 border-transparent w-[95%] py-2 px-4 rounded-full gap-2 flex items-center ${
+                  location.pathname === "/dashboard/manage-users"
+                    ? "text-primary bg-background"
+                    : "text-white hover:border-background"
+                }`}
+              >
+                <PiUsersFour className="text-2xl"></PiUsersFour>
+                Manage Users
+              </li>
+            </Link>
+          </div>
+
+          <hr className="border-none my-1" />
+          {/* PRODUCT MANAGEMENT */}
+          <div className="">
+            <hr className="border-1 border-gray-600 mb-2" />
+            <Link to={"/dashboard/manage-products"}>
+              <li
+                onClick={closeSidebar}
+                className={`duration-300 border-2 border-transparent w-[95%] py-2 px-4 rounded-full gap-2 flex items-center ${
+                  location.pathname === "/dashboard/manage-products"
+                    ? "text-primary bg-background"
+                    : "text-white hover:border-background"
+                }`}
+              >
+                <LuShirt className="text-2xl"></LuShirt>
+                Manage Products
+              </li>
+            </Link>
+            <hr className="border-none my-1" />
+            <Link to={"/dashboard/add-product"}>
+              <li
+                onClick={closeSidebar}
+                className={`duration-300 border-2 border-transparent w-[95%] py-2 px-4 rounded-full gap-2 flex items-center ${
+                  location.pathname === "/dashboard/add-product"
+                    ? "text-primary bg-background"
+                    : "text-white hover:border-background"
+                }`}
+              >
+                <IoMdAdd className="text-2xl"></IoMdAdd>
+                Add Product
+              </li>
+            </Link>
+          </div>
+          <hr className="border-none my-1" />
+          {/* ORDER MANAGEMENT */}
+          <div className="">
+            <hr className="border-1 border-gray-600 mb-2" />
+            <Link to={"/dashboard/manage-orders"}>
+              <li
+                onClick={closeSidebar}
+                className={`duration-300 border-2 border-transparent w-[95%] py-2 px-4 rounded-full gap-2 flex items-center ${
+                  location.pathname === "/dashboard/manage-orders"
+                    ? "text-primary bg-background"
+                    : "text-white hover:border-background"
+                }`}
+              >
+                <BsCart2 className="text-2xl"></BsCart2>
+                Orders
+              </li>
+            </Link>
+          </div>
         </>
       )}
     </>
@@ -114,7 +142,7 @@ const DashboardRoot = () => {
             <TopNav userInfo={userInfo} logOut={logOut} />
           </div>
           {/* OUTLET CONTENT */}
-          <div className="p-4 flex-1">
+          <div className="py-2 px-4 flex-1">
             <Outlet />
           </div>
         </div>
@@ -129,7 +157,7 @@ const DashboardRoot = () => {
             <div
               data-aos="fade-right"
               data-aos-duration="600"
-              className="flex flex-col min-h-screen h-full p-4 bg-gradient-to-br from-primary to-[#2c2c2c] text-xl font-semibold"
+              className="flex flex-col min-h-screen h-full py-2 px-4 bg-gradient-to-br from-primary to-[#2c2c2c] text-xl font-semibold"
             >
               {/* TOP PART */}
               <div>
@@ -150,10 +178,10 @@ const DashboardRoot = () => {
                 </div>
 
                 {/* Website name */}
-                <h1 className="font-heading text-center font-semibold text-4xl text-white my-4">
+                <h1 className="font-heading text-center font-semibold text-4xl text-white mt-4 mb-2">
                   Street<span className="font-normal">Wise</span>
                 </h1>
-                <hr className="mb-4" />
+                <hr className="mb-2 border-gray-600" />
 
                 {/* PROFILE INFO ( MOBILE VIEW ) */}
                 <div
@@ -161,10 +189,10 @@ const DashboardRoot = () => {
                     navigate("/dashboard/account");
                     closeSidebar();
                   }}
-                  className="flex md:hidden mb-4 flex-col items-center justify-center gap-y-1 bg-background py-4 px-1 rounded-xl shadow-xl"
+                  className="flex md:hidden flex-col items-center justify-center gap-y-1 text-background py-3 md:py-4 px-1 rounded-xl shadow-xl"
                 >
-                  <IoPersonOutline className="text-4xl"></IoPersonOutline>
-                  <h1>
+                  <IoPersonOutline className="text-3xl md:text-4xl"></IoPersonOutline>
+                  <h1 className="text-sm md:text-base">
                     {!userInfo?.userInfo?.firstName ||
                     !userInfo?.userInfo?.lastName ? (
                       <>{userInfo?.userInfo?.email?.split("@")[0]}</>
@@ -176,7 +204,7 @@ const DashboardRoot = () => {
                     )}
                   </h1>
                   <span
-                    className={`badge uppercase border-none ${
+                    className={`badge badge-xs md:badge-md uppercase border-none ${
                       userInfo?.userInfo?.role === "admin" && "bg-red-500"
                     } ${
                       userInfo?.userInfo?.role === "customer" && "bg-blue-500"
@@ -187,7 +215,7 @@ const DashboardRoot = () => {
                 </div>
 
                 {/* Navigation links */}
-                <div className="w-full">{links}</div>
+                <div className="w-full text-xs md:text-base">{links}</div>
               </div>
               <div className="flex-1 flex items-end">
                 <button
