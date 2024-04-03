@@ -90,7 +90,7 @@ const DashboardRoot = () => {
                 }`}
               >
                 <LuShirt className="text-2xl"></LuShirt>
-                Manage Products
+                All Products
               </li>
             </Link>
             <hr className="border-none my-1" />

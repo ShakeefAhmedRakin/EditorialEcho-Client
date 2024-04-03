@@ -53,6 +53,9 @@ const AddProduct = () => {
 
   //   PRICING STATE
   const [price, setPrice] = useState("0");
+  // COST STATE
+  const [cost, setCost] = useState("0");
+
   //   STOCK STATE
   const [stock, setStock] = useState(0);
   //   DISCOUNT STATE
@@ -132,6 +135,7 @@ const AddProduct = () => {
       gender,
       color: color.trim(),
       price,
+      cost,
       category,
       stock,
       discount,
@@ -177,6 +181,7 @@ const AddProduct = () => {
       gender,
       color: color.trim(),
       price,
+      cost,
       category,
       stock,
       discount,
@@ -376,10 +381,10 @@ const AddProduct = () => {
           {/* PRICING AND STOCK */}
           <div className="bg-[#F9F9F9] p-4 rounded-lg flex-1">
             <h1 className="text-2xl font-bold mb-2">Pricing And Stock</h1>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               {/* PRICE */}
               <div>
-                <h1 className="font-medium mb-2">Pricing</h1>
+                <h1 className="font-medium mb-2">Price /unit</h1>
                 <div className="relative">
                   <FiDollarSign className="absolute top-3 left-3"></FiDollarSign>
                   <input
@@ -393,6 +398,27 @@ const AddProduct = () => {
                       }
                     }}
                     value={price}
+                    type="text"
+                    className="w-full bg-[#EEEEEE] rounded-lg pl-9 py-2"
+                  />
+                </div>
+              </div>
+              {/* COST */}
+              <div>
+                <h1 className="font-medium mb-2">Cost /unit</h1>
+                <div className="relative">
+                  <FiDollarSign className="absolute top-3 left-3"></FiDollarSign>
+                  <input
+                    onChange={(e) => {
+                      let value = e.target.value.trim();
+                      value = value.replace(/^0+/, ""); // Remove leading zeros
+                      if (value === "" || /^\d*\.?\d*$/.test(value)) {
+                        setCost(value || "0");
+                      } else {
+                        toast.error("Invalid Price");
+                      }
+                    }}
+                    value={cost}
                     type="text"
                     className="w-full bg-[#EEEEEE] rounded-lg pl-9 py-2"
                   />
