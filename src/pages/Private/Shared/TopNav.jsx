@@ -49,6 +49,7 @@ const TopNav = ({ userInfo, logOut }) => {
               {location === "/dashboard/manage-users" && "Manage Users"}
               {location === "/dashboard/manage-products" && "Manage Products"}
               {location === "/dashboard/add-product" && "Add New Product"}
+              {location.includes("/dashboard/edit-product") && "Edit Product"}
             </h1>
           </div>
           <div className="flex items-center gap-2">

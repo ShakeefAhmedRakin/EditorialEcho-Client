@@ -3,6 +3,7 @@ import useGetProducts from "../../../../hooks/useGetProducts";
 import useGetProductsCount from "../../../../hooks/useGetProductsCount";
 import { useEffect, useState } from "react";
 import ProductTableRow from "../../../../components/Admin/ProductTableRow";
+import ProductTableRowPlaceholder from "../../../../components/Admin/ProductTableRowPlaceholder";
 
 const ManageProducts = () => {
   const [filter, setFilter] = useState("");
@@ -157,12 +158,26 @@ const ManageProducts = () => {
       <hr className="my-2" />
       {/* TABLET TO LARGE DEVICES */}
       <div className="h-[564px] xl:h-[670px] overflow-y-auto hidden md:block">
-        {products.map((product) => (
-          <ProductTableRow
-            key={product._id}
-            product={product}
-          ></ProductTableRow>
-        ))}
+        <table className="w-full">
+          {isRefetchingProducts || productsLoading || countLoading ? (
+            <>
+              {[...Array(6)].map((_, index) => (
+                <ProductTableRowPlaceholder
+                  key={index}
+                ></ProductTableRowPlaceholder>
+              ))}
+            </>
+          ) : (
+            <>
+              {products.map((product) => (
+                <ProductTableRow
+                  key={product._id}
+                  product={product}
+                ></ProductTableRow>
+              ))}
+            </>
+          )}
+        </table>
       </div>
     </div>
   );

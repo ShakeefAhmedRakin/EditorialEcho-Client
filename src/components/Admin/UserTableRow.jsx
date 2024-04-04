@@ -98,7 +98,7 @@ const UserTableRow = ({ user, handleChangeRole }) => {
       {/* ACTIONS */}
       <td className="text-right">
         <select
-          className={`select font-heading border-base-300 bg-transparent  focus:outline-none md:w-fit select-xs text-xs xl:select-md xl:text-sm ${
+          className={`select font-heading border-base-300 bg-transparent focus:outline-none md:w-fit select-xs text-xs xl:select-md xl:text-sm ${
             user.role === "admin" && "text-red-600"
           } ${user.role === "customer" && "text-green-600"} ${
             user.role === "staff" && "text-blue-600"

@@ -30,6 +30,7 @@ import Account from "./pages/Private/Account/Account";
 import ManageUsers from "./pages/Private/Admin/ManageUsers/ManageUsers";
 import ManageProducts from "./pages/Private/Admin/ManageProducts/ManageProducts";
 import AddProduct from "./pages/Private/Admin/AddProduct/AddProduct";
+import EditProduct from "./pages/Private/Admin/EditProduct/EditProduct";
 
 const router = createBrowserRouter([
   // PUBLIC ROUTES
@@ -108,6 +109,14 @@ const router = createBrowserRouter([
         element: (
           <AdminRoute>
             <AddProduct></AddProduct>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "/dashboard/edit-product/:id",
+        element: (
+          <AdminRoute>
+            <EditProduct></EditProduct>
           </AdminRoute>
         ),
       },
