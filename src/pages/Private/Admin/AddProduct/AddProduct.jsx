@@ -3,7 +3,6 @@ import { GoCheck } from "react-icons/go";
 import { MdOutlineInventory2 } from "react-icons/md";
 import { FiDollarSign } from "react-icons/fi";
 import { AiOutlinePercentage } from "react-icons/ai";
-
 import JoditEditor from "jodit-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -11,9 +10,7 @@ import ProductImageUpload from "../../../../components/Admin/ProductImageUpload"
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import CategoryUpdateModal from "../../../../components/Admin/CategoryUpdateModal";
 import useGetCategories from "../../../../hooks/useGetCategories";
-import axios from "axios";
-const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
-const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
+import { uploadImagesToImgBB } from "../../../../utils/uploadImagesToImgBB";
 
 const AddProduct = () => {
   // AXIOS
@@ -67,30 +64,6 @@ const AddProduct = () => {
 
   //   IMAGE URLS STATE
   const [imageURLs, setImageURls] = useState([]);
-  const uploadImagesToImgBB = async (imageList) => {
-    try {
-      const imgBBUrls = [];
-
-      for (const image of imageList) {
-        const imageData = image.data_url.split(",")[1];
-        const response = await axios.post(
-          image_hosting_api,
-          { image: imageData },
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-
-        imgBBUrls.push({ data_url: response.data.data.url });
-      }
-      return imgBBUrls;
-    } catch (error) {
-      console.error("Error uploading images to ImgBB:", error);
-      throw error; // Rethrow the error to handle it outside of this function
-    }
-  };
 
   //   HANDLE ADD PRODUCT
   const handleAddProduct = async () => {

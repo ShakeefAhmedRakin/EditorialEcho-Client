@@ -10,6 +10,8 @@ import { MdOutlineInventory2 } from "react-icons/md";
 import { FiDollarSign } from "react-icons/fi";
 import { AiOutlinePercentage } from "react-icons/ai";
 import ProductImageUpload from "../../../../components/Admin/ProductImageUpload";
+import { toast } from "sonner";
+import { uploadImagesToImgBB } from "../../../../utils/uploadImagesToImgBB";
 
 const EditProduct = () => {
   // PRODUCT NAME STATE
@@ -57,12 +59,17 @@ const EditProduct = () => {
   //   IMAGE URLS STATE
   const [imageURLs, setImageURls] = useState([]);
 
+  // DRAFT STATE
+  const [draft, setDraft] = useState(false);
+
   //   BUTTON LOADER STATES
-  const [addingProductLoading, setAddingProductLoading] = useState(false);
-  const [saveDraftLoading, setSaveDraftLoading] = useState(false);
+  const [updateProductLoading, setUpdateProductLoading] = useState(false);
+  const [makeDraftLoading, setMakeDraftLoading] = useState(false);
+  const [publishLoading, setPublishLoading] = useState(false);
 
   // FETCHING PRODUCT DATA
   const axiosSecure = useAxiosSecure();
+  const [refetchData, setRefetchData] = useState(false);
   const [fetchingData, setFetchingData] = useState(true);
   const { id } = useParams();
   useEffect(() => {
@@ -76,10 +83,123 @@ const EditProduct = () => {
       setFeatured(productDetails.featured);
       setColor(productDetails.color);
       setCategory(productDetails.category);
+      setPrice(productDetails.price);
+      setCost(productDetails.cost);
+      setStock(productDetails.stock);
+      setDiscount(productDetails.discount);
       setImageURls(productDetails.imageURLs);
+      setDraft(productDetails.draft);
       setFetchingData(false);
+      setRefetchData(false);
     });
-  }, [axiosSecure, id]);
+  }, [axiosSecure, id, refetchData]);
+
+  //   HANDLE UPDATE PRODUCT
+  const handleUpdateProduct = async () => {
+    if (name === "") {
+      toast.error("Product Name Required");
+      return;
+    }
+    if (content === "") {
+      toast.error("Product Description Required");
+      return;
+    }
+    if (gender === "") {
+      toast.error("Product Gender Required");
+      return;
+    }
+    if (color === "") {
+      toast.error("Product Color Required");
+      return;
+    }
+
+    if (price === "0") {
+      toast.error("Price Is Required");
+      return;
+    }
+    if (category === "") {
+      toast.error("Product Category Required");
+      return;
+    }
+    if (imageURLs.length === 0) {
+      toast.error("At least one image required");
+      return;
+    }
+
+    setUpdateProductLoading(true);
+    // AFTER ALL IMAGE UPDATE
+    const imgBBUrls = await uploadImagesToImgBB(imageURLs);
+
+    const data = {
+      name: name.trim(),
+      description: content,
+      sizes,
+      gender,
+      color: color.trim(),
+      price,
+      cost,
+      category,
+      stock,
+      discount,
+      imageURLs: imgBBUrls,
+      featured,
+      lastModified: Date.now(),
+    };
+
+    console.log(data);
+
+    axiosSecure.put(`/manage/update-product`, { id, data }).then((res) => {
+      if (res.data._id) {
+        toast.success("Updated Product!");
+        setUpdateProductLoading(false);
+        setRefetchData(true);
+      } else {
+        toast.error("Error Occurred");
+        setUpdateProductLoading(false);
+      }
+      setUpdateProductLoading(false);
+    });
+  };
+
+  //   HANDLE MAKE DRAFT
+  const handleMakeDraft = async () => {
+    setMakeDraftLoading(true);
+    const data = {
+      draft: true,
+    };
+
+    axiosSecure.put(`/manage/update-product`, { id, data }).then((res) => {
+      if (res.data._id) {
+        toast.success("Drafted Successfully");
+        setMakeDraftLoading(false);
+        setRefetchData(true);
+      } else {
+        toast.error("Error Occurred");
+        setMakeDraftLoading(false);
+      }
+      setMakeDraftLoading(false);
+    });
+  };
+
+  //   HANDLE PUBLISH
+  const handlePublish = async () => {
+    setPublishLoading(true);
+    const data = {
+      draft: false,
+    };
+
+    axiosSecure.put(`/manage/update-product`, { id, data }).then((res) => {
+      if (res.data._id) {
+        toast.success("Published Successfully");
+        setPublishLoading(false);
+        setRefetchData(true);
+      } else {
+        toast.error("Error Occurred");
+        setPublishLoading(false);
+      }
+      setPublishLoading(false);
+    });
+  };
 
   return (
     <>
@@ -416,36 +536,59 @@ const EditProduct = () => {
             </div>
 
             {/* BOTTOM SECTION */}
-            <div className="gap-3 max-w-lg mx-auto flex mt-4">
-              {/* SAVE DRAFT BUTTON */}
+            <div className="gap-3 max-w-lg mx-auto flex flex-col md:flex-row mt-4">
+              {draft ? (
+                <>
+                  {/* PUBLISH BUTTON */}
+                  <button
+                    onClick={() => handlePublish()}
+                    disabled={publishLoading}
+                    className="btn flex-1 bg-transparent rounded-full text-green-600 border-green-600 hover:border-green-600 hover:bg-green-600 hover:text-white flex-nowrap whitespace-nowrap"
+                  >
+                    {publishLoading ? (
+                      <>
+                        <span className="loading loading-spinner loading-md"></span>
+                      </>
+                    ) : (
+                      <>
+                        <RiDraftLine className="text-lg"></RiDraftLine>Publish
+                      </>
+                    )}
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    onClick={() => handleMakeDraft()}
+                    disabled={makeDraftLoading}
+                    className="btn flex-1 bg-transparent rounded-full border-primary hover:border-primary hover:bg-primary hover:text-white flex-nowrap whitespace-nowrap"
+                  >
+                    {makeDraftLoading ? (
+                      <>
+                        <span className="loading loading-spinner loading-md"></span>
+                      </>
+                    ) : (
+                      <>
+                        <RiDraftLine className="text-lg"></RiDraftLine>Make
+                        Draft
+                      </>
+                    )}
+                  </button>
+                </>
+              )}
+              {/* UPDATE PRODUCT BUTTON */}
               <button
-                onClick={() => handleAddDraft()}
-                disabled={saveDraftLoading}
-                className="btn flex-1 bg-transparent rounded-full border-primary hover:border-primary hover:bg-primary hover:text-white flex-nowrap whitespace-nowrap"
+                onClick={() => handleUpdateProduct()}
+                disabled={updateProductLoading}
+                className="btn flex-1 rounded-full border-yellow-300 bg-yellow-300 hover:bg-yellow-400 hover:border-400 flex-nowrap whitespace-nowrap"
               >
-                {saveDraftLoading ? (
+                {updateProductLoading ? (
                   <>
                     <span className="loading loading-spinner loading-md"></span>
                   </>
                 ) : (
                   <>
-                    <RiDraftLine className="text-lg"></RiDraftLine>Save Draft
-                  </>
-                )}
-              </button>
-              {/* ADD PRODUCT BUTTON */}
-              <button
-                onClick={() => handleAddProduct()}
-                disabled={addingProductLoading}
-                className="btn flex-1 rounded-full border-green-300 bg-green-300 hover:bg-green-400 hover:border-400 flex-nowrap whitespace-nowrap"
-              >
-                {addingProductLoading ? (
-                  <>
-                    <span className="loading loading-spinner loading-md"></span>
-                  </>
-                ) : (
-                  <>
-                    <GoCheck className="text-xl"></GoCheck>Add Product
+                    <GoCheck className="text-xl"></GoCheck>Update Product
                   </>
                 )}
               </button>
