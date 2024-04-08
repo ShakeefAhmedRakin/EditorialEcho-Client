@@ -48,6 +48,9 @@ const AddProduct = () => {
   // FEATURE STATE
   const [featured, setFeatured] = useState(false);
 
+  // TYPE STATE
+  const [type, setType] = useState("");
+
   //   PRICING STATE
   const [price, setPrice] = useState("0");
   // COST STATE
@@ -79,6 +82,11 @@ const AddProduct = () => {
       toast.error("Product Gender Required");
       return;
     }
+
+    if (type === "") {
+      toast.error("Product Type Required");
+      return;
+    }
     if (color === "") {
       toast.error("Product Color Required");
       return;
@@ -104,6 +112,7 @@ const AddProduct = () => {
     const data = {
       name: name.trim(),
       description: content,
+      type: type,
       sizes,
       gender,
       color: color.trim(),
@@ -124,6 +133,7 @@ const AddProduct = () => {
         setContent("");
         setSizes([]);
         setGender("");
+        setType("");
         setPrice("0");
         setStock(0);
         setDiscount(0);
@@ -152,6 +162,7 @@ const AddProduct = () => {
       description: content,
       sizes,
       gender,
+      type: type,
       color: color.trim(),
       price,
       cost,
@@ -171,6 +182,7 @@ const AddProduct = () => {
         setSizes([]);
         setGender("");
         setPrice("0");
+        setType("");
         setStock(0);
         setDiscount(0);
         setCategory("");
@@ -325,29 +337,67 @@ const AddProduct = () => {
                   </div>
                 </div>
               </div>
-              {/* COLOR / FEATURED */}
-              <div className="w-full space-y-3 text-lg">
-                <h1 className="font-medium">Featured</h1>
-                <div className="flex items-center">
-                  <input
-                    type="radio"
-                    name="radio-2"
-                    className="radio"
-                    checked={featured}
-                    onClick={() => setFeatured(!featured)}
-                  />
-                  <label className="ml-2 block text-sm text-gray-900">
-                    Show on Homepage
-                  </label>
+              {/* COLOR / FEATURED / TYPE */}
+              <div className="w-full space-y-4 text-lg my-4 md:my-0">
+                <div className="flex gap-6">
+                  <div>
+                    <h1 className="font-medium mb-2">Type</h1>
+                    <div className="flex items-center flex-1 gap-x-4 gap-y-4 flex-wrap">
+                      {/* ACCESSORY */}
+                      <div className="flex items-center">
+                        <input
+                          type="radio"
+                          name="radio-1"
+                          className="radio"
+                          checked={type === "accessory"}
+                          onClick={() => setType("accessory")}
+                        />
+                        <label className="ml-2 block text-sm text-gray-900">
+                          Accessory
+                        </label>
+                      </div>
+                      {/* CLOTHING */}
+                      <div className="flex items-center">
+                        <input
+                          type="radio"
+                          name="radio-1"
+                          className="radio"
+                          checked={type === "clothing"}
+                          onClick={() => setType("clothing")}
+                        />
+                        <label className="ml-2 block text-sm text-gray-900">
+                          Clothing
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <h1 className="font-medium mb-2">Featured</h1>
+                    <div className="flex items-center">
+                      <input
+                        type="radio"
+                        name="radio-2"
+                        className="radio"
+                        checked={featured}
+                        onClick={() => setFeatured(!featured)}
+                      />
+                      <label className="ml-2 block text-sm text-gray-900">
+                        Show on Homepage
+                      </label>
+                    </div>
+                  </div>
                 </div>
-                <h1 className="font-medium">Product Colors</h1>
-                <input
-                  value={color}
-                  onChange={(e) => setColor(e.target.value)}
-                  type="text"
-                  className="w-full bg-[#EEEEEE] rounded-lg py-2 px-3"
-                  placeholder="Separate with spaces.."
-                />
+
+                <div>
+                  <h1 className="font-medium">Product Colors</h1>
+                  <input
+                    value={color}
+                    onChange={(e) => setColor(e.target.value)}
+                    type="text"
+                    className="w-full bg-[#EEEEEE] rounded-lg py-2 px-3"
+                    placeholder="Separate with spaces.."
+                  />
+                </div>
               </div>
             </div>
           </div>

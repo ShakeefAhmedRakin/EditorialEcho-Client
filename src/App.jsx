@@ -130,6 +130,7 @@ const App = () => {
   const axiosPublic = useAxiosPublic();
 
   const [serverDown, setServerDown] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const checkServerStatus = async () => {
@@ -139,8 +140,10 @@ const App = () => {
           throw new Error("Server is down");
         }
         setServerDown(false);
+        setLoading(false);
       } catch (error) {
         setServerDown(true);
+        setLoading(false);
       }
     };
 
@@ -154,18 +157,31 @@ const App = () => {
 
   return (
     <>
-      {serverDown ? (
+      {loading ? (
         <>
-          <ServerDownError></ServerDownError>
+          <div className="flex h-screen flex-col gap-5 justify-center items-center">
+            <h1 className="font-heading font-semibold text-4xl">
+              Street<span className="font-normal">Wise</span>
+            </h1>
+            <span className="loading loading-spinner loading-lg"></span>
+          </div>
         </>
       ) : (
         <>
-          <AuthProvider>
-            <QueryClientProvider client={queryClient}>
-              <Toaster richColors position="bottom-right"></Toaster>
-              <RouterProvider router={router} />
-            </QueryClientProvider>
-          </AuthProvider>
+          {serverDown ? (
+            <>
+              <ServerDownError></ServerDownError>
+            </>
+          ) : (
+            <>
+              <AuthProvider>
+                <QueryClientProvider client={queryClient}>
+                  <Toaster richColors position="bottom-right"></Toaster>
+                  <RouterProvider router={router} />
+                </QueryClientProvider>
+              </AuthProvider>
+            </>
+          )}
         </>
       )}
     </>

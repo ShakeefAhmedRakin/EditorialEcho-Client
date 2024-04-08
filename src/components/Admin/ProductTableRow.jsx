@@ -33,6 +33,10 @@ const ProductTableRow = ({ product }) => {
           </span>
         </div>
         <div className="text-xs">
+          <p className="flex gap-1">
+            <span className="font-semibold">Type:</span>
+            <span className="uppercase">{product?.type}</span>
+          </p>
           <p>
             <span className="font-semibold">Gender: </span>
             <span className="uppercase">
