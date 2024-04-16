@@ -8,26 +8,28 @@ import { MdOutlineEdit } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { BsGraphUp } from "react-icons/bs";
 
-const ProductTableRow = ({ product }) => {
+const ProductTableCardMobile = ({ product }) => {
   const navigate = useNavigate();
   return (
-    <tr className="even:bg-[#F9F9F9]">
+    <div className="bg-base-100 shadow-md border rounded-lg">
       {/* PRODUCT IMAGE */}
-      <td className="w-28 p-2 relative">
+      <div className="relative">
         {product.featured && (
-          <span className="badge absolute badge-xs left-0 top-0 border-none bg-green-500 font-bold">
+          <span className="badge absolute badge-sm left-1 top-1 border-none bg-green-500 font-bold">
             Featured
           </span>
         )}
         <img
           src={product?.imageURLs[0]?.data_url || "/image-not-available.png"}
-          className="w-28 aspect-square object-cover rounded-md"
+          className="w-full aspect-video rounded-t-lg  mx-auto object-cover"
         />
-      </td>
+      </div>
+
       {/* PRODUCT DETAILS */}
-      <td>
-        <div className="flex items-center gap-1">
-          <h1 className="font-semibold text-sm xl:text-base truncate w-fit">
+      <div className="p-2">
+        {/* NAME */}
+        <div className="flex items-center justify-between gap-1">
+          <h1 className="font-semibold text-sm truncate w-fit">
             {product?.name ? `${product.name}` : "N/A"}
           </h1>
           <span
@@ -38,7 +40,9 @@ const ProductTableRow = ({ product }) => {
             {product?.draft ? "DRAFT" : "ON SALE"}
           </span>
         </div>
-        <div className="text-xs">
+        <hr />
+        {/* DETAILS */}
+        <div className="text-xs grid grid-cols-2 gap-1 mt-1">
           <p className="flex gap-1">
             <span className="font-semibold">Type:</span>
             <span className="uppercase">{product?.type}</span>
@@ -74,48 +78,46 @@ const ProductTableRow = ({ product }) => {
             )}
           </p>
         </div>
-      </td>
-      {/* STOCK */}
-      <td className="text-xs xl:text-base px-2">
-        {product?.stock ? (
-          <span className="text-green-400 font-medium">
-            In Stock{" "}
-            <span className="text-primary font-normal text-sm">
-              ({product?.stock})
+        <hr />
+        {/* STOCK / PRICE / REVENUE */}
+        <div className="flex items-center flex-row-reverse justify-between gap-2">
+          {/* STOCK */}
+          <div>
+            {product?.stock ? (
+              <span className="text-green-400 font-medium">
+                In Stock{" "}
+                <span className="text-primary font-normal text-sm">
+                  ({product?.stock})
+                </span>
+              </span>
+            ) : (
+              <span className="text-red-400 font-medium">
+                Out of Stock{" "}
+                <span className="text-primary font-normal text-sm">
+                  ({product?.stock})
+                </span>
+              </span>
+            )}
+          </div>
+          {/* PRICE/DISCOUNT/REVENUE */}
+          <div>
+            <span className="flex items-center gap-1">
+              <CgDollar className="text-base xl:text-lg text-yellow-400"></CgDollar>{" "}
+              {product?.price}
             </span>
-          </span>
-        ) : (
-          <span className="text-red-400 font-medium">
-            Out of Stock{" "}
-            <span className="text-primary font-normal text-sm">
-              ({product?.stock})
+            <span className="flex items-center gap-1">
+              <TbPercentage className="text-base xl:text-lg text-green-400"></TbPercentage>{" "}
+              {product?.discount}
             </span>
-          </span>
-        )}
-      </td>
-      {/* PRICE / DISCOUNT */}
-      <td className="text-xs xl:text-base px-2">
-        <span className="flex items-center gap-1">
-          <CgDollar className="text-base xl:text-lg text-yellow-400"></CgDollar>{" "}
-          {product?.price}
-        </span>
-        <span className="flex items-center gap-1">
-          <TbPercentage className="text-base xl:text-lg text-green-400"></TbPercentage>{" "}
-          {product?.discount}
-        </span>
-      </td>
-      {/* REVENUE */}
-      <td className="text-xs xl:text-base px-2">
-        {
-          <span className="flex items-center gap-1">
-            <BsGraphUp className="text-base xl:text-lg text-green-600"></BsGraphUp>{" "}
-            {calculateRevenue(product?.price, product?.cost, product?.orders)}
-          </span>
-        }
-      </td>
-      {/* BUTTONS */}
-      <td className="w-28 px-2">
-        <div className="dropdown dropdown-bottom dropdown-end">
+            <span className="flex items-center gap-1">
+              <BsGraphUp className="text-base xl:text-lg text-green-600"></BsGraphUp>{" "}
+              {calculateRevenue(product?.price, product?.cost, product?.orders)}
+            </span>
+          </div>
+        </div>
+        <hr />
+        {/* BUTTON */}
+        <div className="dropdown dropdown-bottom dropdown-end mt-2 flex justify-end">
           <div
             tabIndex={product?._id}
             role="button"
@@ -144,13 +146,13 @@ const ProductTableRow = ({ product }) => {
             </button>
           </ul>
         </div>
-      </td>
-    </tr>
+      </div>
+    </div>
   );
 };
 
-ProductTableRow.propTypes = {
+ProductTableCardMobile.propTypes = {
   product: PropTypes.object,
 };
 
-export default ProductTableRow;
+export default ProductTableCardMobile;

@@ -4,7 +4,8 @@ import useGetProductsCount from "../../../../hooks/useGetProductsCount";
 import { useEffect, useState } from "react";
 import ProductTableRow from "../../../../components/Admin/ProductTableRow";
 import ProductTableRowPlaceholder from "../../../../components/Admin/ProductTableRowPlaceholder";
-
+import ProductTableCardMobile from "../../../../components/Admin/ProductTableCardMobile";
+import ProductTableCardMobilePlaceholder from "../../../../components/Admin/ProductTableCardMobilePlaceholder";
 const ManageProducts = () => {
   const [filter, setFilter] = useState("");
   const [searchName, setSearchName] = useState("");
@@ -178,6 +179,28 @@ const ManageProducts = () => {
             </>
           )}
         </table>
+      </div>
+
+      {/* MOBILE DEVICES */}
+      <div className="block md:hidden space-y-3">
+        {isRefetchingProducts || productsLoading || countLoading ? (
+          <>
+            {[...Array(6)].map((_, index) => (
+              <ProductTableCardMobilePlaceholder
+                key={index}
+              ></ProductTableCardMobilePlaceholder>
+            ))}
+          </>
+        ) : (
+          <>
+            {products.map((product) => (
+              <ProductTableCardMobile
+                key={product._id}
+                product={product}
+              ></ProductTableCardMobile>
+            ))}
+          </>
+        )}
       </div>
     </div>
   );

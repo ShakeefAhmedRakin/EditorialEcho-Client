@@ -25,7 +25,7 @@ const UserTableCardMobile = ({ user, handleChangeRole }) => {
   const { userInfo } = useUserInfo();
 
   return (
-    <div key={user._id} className="p-2 bg-base-100 shadow-md border rounded-lg">
+    <div className="p-2 bg-base-100 shadow-md border rounded-lg">
       <h1 className="font-bold text-sm flex items-center gap-1 whitespace-nowrap">
         {user?.firstName && user?.lastName ? (
           <>

@@ -33,6 +33,7 @@ import AddProduct from "./pages/Private/Admin/AddProduct/AddProduct";
 import EditProduct from "./pages/Private/Admin/EditProduct/EditProduct";
 import { useEffect, useState } from "react";
 import ServerDownError from "./components/Error/ServerDownError";
+import ProductDetails from "./pages/Public/ProductDetails/ProductDetails";
 
 const router = createBrowserRouter([
   // PUBLIC ROUTES
@@ -48,6 +49,14 @@ const router = createBrowserRouter([
       {
         path: "/explore",
         element: <Explore></Explore>,
+      },
+      {
+        path: "/product/id/:id",
+        element: <ProductDetails></ProductDetails>,
+        loader: ({ params }) =>
+          fetch(
+            `http://localhost:5000/public/get-product-details/${params.id}`
+          ),
       },
     ],
   },

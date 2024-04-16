@@ -84,6 +84,7 @@ const EditProduct = () => {
       setSizes(productDetails.sizes);
       setGender(productDetails.gender);
       setFeatured(productDetails.featured);
+      setType(productDetails.type);
       setColor(productDetails.color);
       setCategory(productDetails.category);
       setPrice(productDetails.price);
