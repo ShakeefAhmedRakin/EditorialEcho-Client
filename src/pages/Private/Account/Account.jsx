@@ -70,6 +70,9 @@ const Account = () => {
             }
           });
       } else {
+        if (trimmedFirstName === userInfo?.userInfo?.firstName) {
+          return;
+        }
         toast.error("First name contains invalid characters");
         setFirstName(userInfo?.userInfo?.firstName);
       }
@@ -95,6 +98,9 @@ const Account = () => {
             }
           });
       } else {
+        if (trimmedLastName === userInfo?.userInfo?.lastName) {
+          return;
+        }
         toast.error("Last name contains invalid characters");
         setLastName(userInfo?.userInfo?.lastName);
       }
@@ -204,7 +210,7 @@ const Account = () => {
               <div
                 className={`absolute h-full top-0 flex gap-1 ${
                   firstNameEdit
-                    ? "w-16 right-[50px] p-2 -top-[5px] md:top-0"
+                    ? "w-16 right-[50px] p-2 -top-[5.5px] md:top-0"
                     : "w-16 right-0 p-1"
                 }`}
               >
@@ -216,7 +222,7 @@ const Account = () => {
                           setFirstNameEdit(!firstNameEdit);
                         });
                       }}
-                      className="h-full text-2xl w-full btn bg-green-500 hover:bg-green-600 text-white border-none shadow-none"
+                      className="h-full text-2xl w-full btn bg-green-500 hover:bg-green-600 rounded-none text-white border-none shadow-none"
                     >
                       <FaCheck></FaCheck>
                     </button>
@@ -225,7 +231,7 @@ const Account = () => {
                         setFirstNameEdit(!firstNameEdit);
                         setFirstName(userInfo?.userInfo?.firstName);
                       }}
-                      className="h-full text-2xl w-full btn bg-red-500 hover:bg-red-600 text-white border-none shadow-none"
+                      className="h-full text-2xl w-full btn bg-red-500 hover:bg-red-600 rounded-none text-white border-none shadow-none"
                     >
                       <RxCross1></RxCross1>
                     </button>
@@ -234,7 +240,7 @@ const Account = () => {
                   <>
                     <button
                       onClick={() => setFirstNameEdit(!firstNameEdit)}
-                      className="h-full text-2xl w-full btn bg-transparent hover:bg-transparent border-none shadow-none"
+                      className="h-full rounded-none text-2xl w-full btn bg-transparent hover:bg-transparent border-none shadow-none"
                     >
                       <MdOutlineEdit></MdOutlineEdit>
                     </button>
@@ -264,7 +270,7 @@ const Account = () => {
               <div
                 className={`absolute h-full top-0 flex gap-1 ${
                   lastNameEdit
-                    ? "w-16 right-[50px] p-2 -top-[5px] md:top-0"
+                    ? "w-16 right-[50px] p-2 -top-[5.5px] md:top-0"
                     : "w-16 right-0 p-1"
                 }`}
               >
@@ -276,7 +282,7 @@ const Account = () => {
                           setLastNameEdit(!lastNameEdit);
                         });
                       }}
-                      className="h-full text-2xl w-full btn bg-green-500 hover:bg-green-600 text-white border-none shadow-none"
+                      className="h-full text-2xl w-full btn bg-green-500 hover:bg-green-600 rounded-none text-white border-none shadow-none"
                     >
                       <FaCheck></FaCheck>
                     </button>
@@ -285,7 +291,7 @@ const Account = () => {
                         setLastNameEdit(!lastNameEdit);
                         setLastName(userInfo?.userInfo?.lastName);
                       }}
-                      className="h-full text-2xl w-full btn bg-red-500 hover:bg-red-600 text-white border-none shadow-none"
+                      className="h-full rounded-none text-2xl w-full btn bg-red-500 hover:bg-red-600 text-white border-none shadow-none"
                     >
                       <RxCross1></RxCross1>
                     </button>
@@ -294,7 +300,7 @@ const Account = () => {
                   <>
                     <button
                       onClick={() => setLastNameEdit(!lastNameEdit)}
-                      className="h-full text-2xl w-full btn bg-transparent hover:bg-transparent border-none shadow-none"
+                      className="h-full rounded-none text-2xl w-full btn bg-transparent hover:bg-transparent border-none shadow-none"
                     >
                       <MdOutlineEdit></MdOutlineEdit>
                     </button>
@@ -320,7 +326,7 @@ const Account = () => {
           <div className="my-4">
             <button
               onClick={() => handleResetPassword()}
-              className="btn w-full md:w-1/2 bg-transparent border-primary hover:border-red-500 hover:bg-red-500 hover:text-white"
+              className="btn w-full md:w-1/2 bg-transparent border-primary hover:border-red-500 rounded-none hover:bg-red-500 hover:text-white"
             >
               Reset Password
             </button>
@@ -392,7 +398,7 @@ const Account = () => {
                 }
                 setAddAddressForm(!addAddressForm);
               }}
-              className={`btn ${
+              className={`btn rounded-none ${
                 addAddressForm
                   ? "border-red-500 hover:border-red-100 hover:bg-red-100  text-red-500"
                   : "border-green-500 hover:border-green-100 hover:bg-green-100  text-green-500"
@@ -490,7 +496,7 @@ const Account = () => {
                 </div>
                 <button
                   disabled={addLoading}
-                  className="btn w-full bg-transparent border-green-500 hover:bg-green-100 hover:border-green-100 text-green-500 mt-2"
+                  className="btn rounded-none w-full bg-transparent border-green-500 hover:bg-green-100 hover:border-green-100 text-green-500 mt-2"
                 >
                   {addLoading ? (
                     <span className="loading loading-spinner loading-sm"></span>
