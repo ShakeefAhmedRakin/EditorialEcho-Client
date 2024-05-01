@@ -1,4 +1,8 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  ScrollRestoration,
+} from "react-router-dom";
 import { Toaster } from "sonner";
 // TANSTACK
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";

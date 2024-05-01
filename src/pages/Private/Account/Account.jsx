@@ -9,6 +9,7 @@ import { RxCross2 } from "react-icons/rx";
 import { FaPlus } from "react-icons/fa6";
 import { useForm } from "react-hook-form";
 import useAuth from "../../../hooks/useAuth";
+import { Helmet } from "react-helmet-async";
 
 const Account = () => {
   const { userInfo, refetch } = useUserInfo();
@@ -168,6 +169,9 @@ const Account = () => {
 
   return (
     <>
+      <Helmet>
+        <title>StreetWise | My Account</title>
+      </Helmet>
       {/* INFORMATION */}
       <div
         className="flex flex-col h-full md:flex-row"

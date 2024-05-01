@@ -43,7 +43,10 @@ const ProductImageSlider = ({ images }) => {
   return (
     <div className="select-none">
       {/* SLIDER IMAGE */}
-      <div className="mb-2 relative overflow-hidden">
+      <div
+        className="mb-2 relative overflow-hidden rounded-[5px]"
+        data-aos="fade-up"
+      >
         {/* SELECTED IMAGE */}
         <img
           src={images[selectedIndex].data_url}
@@ -72,15 +75,18 @@ const ProductImageSlider = ({ images }) => {
       {/* ALL THE IMAGES */}
       <div className={`grid grid-cols-4 gap-2`}>
         {images.map((img, index) => (
-          <img
-            key={index}
-            src={img.data_url}
-            draggable={false}
-            onClick={() => handleImageSelect(index)}
-            className={`aspect-square p-1 duration-200 object-cover border-2 rounded-md hover:cursor-pointer ${
-              selectedIndex === index ? "border-primary" : "border-transparent"
-            }`}
-          ></img>
+          <div data-aos="fade-up" data-aos-delay={100 * index} key={index}>
+            <img
+              src={img.data_url}
+              draggable={false}
+              onClick={() => handleImageSelect(index)}
+              className={`aspect-square p-1 duration-200 object-cover border-2 rounded-md hover:cursor-pointer ${
+                selectedIndex === index
+                  ? "border-primary"
+                  : "border-transparent"
+              }`}
+            ></img>
+          </div>
         ))}
       </div>
     </div>

@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import useAxiosPublic from "../../../hooks/useAxiosPublic";
+import { Helmet } from "react-helmet-async";
 
 const Register = () => {
   // LOADING STATES
@@ -127,6 +128,9 @@ const Register = () => {
 
   return (
     <>
+      <Helmet>
+        <title>StreetWise | Sign Up</title>
+      </Helmet>
       <div className="bg-background min-h-screen flex relative overflow-y-hidden">
         <div
           className="flex-1 flex items-center justify-center"

@@ -3,6 +3,7 @@ import useAuth from "../../../hooks/useAuth";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 
 const ForgotPassword = () => {
   // FIREBASE FUNCTION
@@ -39,9 +40,12 @@ const ForgotPassword = () => {
 
   return (
     <>
+      <Helmet>
+        <title>StreetWise | Forgot Password</title>
+      </Helmet>
       <div className="h-screen flex justify-center items-center relative overflow-y-hidden">
         <div
-          className="bg-background py-12 px-8 font-heading flex-1 max-w-2xl"
+          className="bg-background rounded-xl py-12 px-8 font-heading flex-1 max-w-2xl"
           data-aos="fade-up"
           data-aos-delay="0"
           data-aos-duration="800"
@@ -49,7 +53,7 @@ const ForgotPassword = () => {
           <h1 className="font-heading font-semibold text-4xl text-center">
             Street<span className="font-normal">Wise</span>
           </h1>
-          <hr className="mt-2" />
+          <hr className="my-2" />
           <form onSubmit={handleSubmit(handleForgotPassword)}>
             {/* EMAIL */}
             <div className="mb-6">
@@ -91,6 +95,13 @@ const ForgotPassword = () => {
             </div>
           </form>
         </div>
+        <img
+          src="/bannerbg.jpg"
+          className="absolute top-0 h-full w-full object-cover -z-10"
+          data-aos="fade-down"
+          data-aos-delay="0"
+          data-aos-duration="800"
+        />
       </div>
     </>
   );

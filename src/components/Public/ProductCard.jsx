@@ -33,7 +33,7 @@ const ProductCard = ({ product, index }) => {
 
 ProductCard.propTypes = {
   product: PropTypes.object,
-  index: PropTypes.int,
+  index: PropTypes.number,
 };
 
 export default ProductCard;

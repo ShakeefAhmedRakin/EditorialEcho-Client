@@ -12,6 +12,7 @@ import { AiOutlinePercentage } from "react-icons/ai";
 import ProductImageUpload from "../../../../components/Admin/ProductImageUpload";
 import { toast } from "sonner";
 import { uploadImagesToImgBB } from "../../../../utils/uploadImagesToImgBB";
+import { Helmet } from "react-helmet-async";
 
 const EditProduct = () => {
   // PRODUCT NAME STATE
@@ -213,6 +214,9 @@ const EditProduct = () => {
     <>
       {fetchingData ? (
         <>
+          <Helmet>
+            <title>StreetWise | Fetching Product</title>
+          </Helmet>
           <h1 className="h-full flex flex-col items-center justify-center text-center gap-8 text-lg">
             Fetching Product Details
             <span className="loading loading-spinner loading-lg"></span>
@@ -220,6 +224,9 @@ const EditProduct = () => {
         </>
       ) : (
         <>
+          <Helmet>
+            <title>StreetWise | Edit | {name || "Product"}</title>
+          </Helmet>
           <div
             className="min-h-full h-full"
             data-aos="fade-up"
